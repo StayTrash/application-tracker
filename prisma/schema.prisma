@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
+
+  // Application specific fields
+  targetJobTitles String[]     // e.g. ["Full Stack", "Frontend"]
+  currency       String        @default("USD")
+  applications   Application[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+ 
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@id([identifier, token])
+}
+ 
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([userId, credentialID])
+}
+
+model Application {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Job Details
+  company        String
+  companyLogo    String?   // URL to logo
+  title          String
+  jobUrl         String?
+  salaryMin      Int?
+  salaryMax      Int?
+  currency       String    @default("USD")
+  location       String?   // "Remote", "NYC", etc.
+  workType       String?   // "Remote", "On-site", "Hybrid"
+  
+  // Status & Progress
+  status         ApplicationStatus @default(WISHLIST)
+  dateApplied    DateTime?
+  
+  // Metadata
+  notes          String?   @db.Text // Rich text html/markdown
+  slug           String    // Friendly URL slug: company-title-randomid
+  
+  // Relations
+  stages         Stage[]
+  contacts       Contact[]
+  documents      Document[]
+  checklists     Checklist[]
+  
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+enum ApplicationStatus {
+  WISHLIST
+  APPLIED
+  RECRUITER_SCREEN
+  TECHNICAL_INTERVIEW
+  FINAL_ROUND
+  OFFER
+  REJECTED
+  ARCHIVED
+}
+
+model Stage {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  
+  name          String      // e.g. "Screening Call"
+  date          DateTime
+  completed     Boolean     @default(false)
+  notes         String?
+  
+  createdAt     DateTime    @default(now())
+}
+
+model Contact {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  
+  name          String
+  role          String?     // "Recruiter", "Hiring Manager"
+  email         String?
+  linkedIn      String?
+  
+  createdAt     DateTime    @default(now())
+}
+
+model Document {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  
+  name          String      // "Resume v1", "Cover Letter"
+  url           String      // S3/UploadThing URL
+  type          String      // "RESUME", "COVER_LETTER", "OTHER"
+  
+  createdAt     DateTime    @default(now())
+}
+
+model Checklist {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  
+  text          String
+  isCompleted   Boolean     @default(false)
+}
