@@ -18,16 +18,76 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ jobs, onAddJob, onEditJob, on
     const [draggedJobId, setDraggedJobId] = useState<string | null>(null);
     const [activeColumn, setActiveColumn] = useState<Status | null>(null);
 
+    // Refs for auto-scrolling
+    const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+    const scrollFrameRef = React.useRef<number | null>(null);
+    const scrollDirectionRef = React.useRef<'left' | 'right' | null>(null);
+
     const handleDragStart = (e: React.DragEvent, id: string) => {
         setDraggedJobId(id);
-        // Required for Firefox
         e.dataTransfer.effectAllowed = 'move';
-        // Set data for transparency
         e.dataTransfer.setData('text/plain', id);
+    };
+
+    const performAutoScroll = () => {
+        const container = scrollContainerRef.current;
+        if (!container || !scrollDirectionRef.current) return;
+
+        const scrollAmount = 12; // Smooth constant speed per frame
+
+        if (scrollDirectionRef.current === 'right') {
+            container.scrollLeft += scrollAmount;
+        } else {
+            container.scrollLeft -= scrollAmount;
+        }
+
+        scrollFrameRef.current = requestAnimationFrame(performAutoScroll);
+    };
+
+    // Auto-scroll logic
+    const checkForAutoScroll = (e: React.DragEvent) => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+
+        const { left, right } = container.getBoundingClientRect();
+        const mouseX = e.clientX;
+        const threshold = 150;
+
+        let direction: 'left' | 'right' | null = null;
+        if (mouseX > right - threshold) direction = 'right';
+        else if (mouseX < left + threshold) direction = 'left';
+
+        if (direction !== scrollDirectionRef.current) {
+            scrollDirectionRef.current = direction;
+
+            // If direction changed or started, ensure loop is running or stopped
+            if (scrollFrameRef.current) {
+                cancelAnimationFrame(scrollFrameRef.current);
+                scrollFrameRef.current = null;
+            }
+
+            if (direction) {
+                performAutoScroll();
+            }
+        }
+    };
+
+    const stopAutoScroll = () => {
+        if (scrollFrameRef.current) {
+            cancelAnimationFrame(scrollFrameRef.current);
+            scrollFrameRef.current = null;
+        }
+        scrollDirectionRef.current = null;
+    };
+
+    const handleContainerDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+        checkForAutoScroll(e);
     };
 
     const handleDragOver = (e: React.DragEvent, status: Status) => {
         e.preventDefault();
+        // checkForAutoScroll(e); // Handled by container now
         if (activeColumn !== status) {
             setActiveColumn(status);
         }
@@ -35,6 +95,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ jobs, onAddJob, onEditJob, on
 
     const handleDrop = (e: React.DragEvent, status: Status) => {
         e.preventDefault();
+        stopAutoScroll(); // Stop scrolling on drop
         const id = e.dataTransfer.getData('text/plain');
         if (id) {
             onStatusChange(id, status);
@@ -44,6 +105,15 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ jobs, onAddJob, onEditJob, on
     };
 
     const handleDragLeave = () => {
+        // We don't stop auto-scroll here immediately because dragging over a child triggers parent dragleave
+        // But activeColumn clearing is fine
+        setActiveColumn(null);
+    };
+
+    // Safety cleanup
+    const handleDragEnd = () => {
+        stopAutoScroll();
+        setDraggedJobId(null);
         setActiveColumn(null);
     };
 
@@ -71,7 +141,18 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ jobs, onAddJob, onEditJob, on
             </div>
 
             {/* Columns Container */}
-            <div className="flex-1 overflow-x-auto overflow-y-hidden">
+            <div
+                ref={scrollContainerRef}
+                className="flex-1 overflow-x-auto overflow-y-hidden"
+                onDragOver={handleContainerDragOver}
+                onDragEnd={handleDragEnd} // Important fallback
+                onDragLeave={(e) => {
+                    // Stop scrolling if we truly leave the container window (mostly)
+                    if (e.clientX <= 0 || e.clientX >= window.innerWidth || e.clientY <= 0 || e.clientY >= window.innerHeight) {
+                        stopAutoScroll();
+                    }
+                }}
+            >
                 <div className="h-full flex px-8 py-6 gap-6 min-w-max">
 
                     {COLUMNS.map((col) => {

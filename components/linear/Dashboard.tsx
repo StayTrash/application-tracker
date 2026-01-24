@@ -129,9 +129,9 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 flex flex-col justify-between hover:border-zinc-700 transition-colors relative group"
+                            className="rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise bg-dot-pattern p-5 flex flex-col justify-between hover:border-zinc-700 transition-colors relative group overflow-hidden"
                         >
-                            <div className="absolute top-4 right-4 text-zinc-700 group-hover:text-zinc-500 transition-colors">
+                            <div className="absolute top-4 right-4 text-zinc-700 group-hover:text-zinc-500 transition-colors z-10">
                                 <ArrowUpRight size={16} />
                             </div>
                             <p className="text-zinc-500 text-xs uppercase tracking-wider font-semibold">{metric.label}</p>
@@ -154,7 +154,7 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.98 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="md:col-span-2 rounded-xl border border-zinc-800 bg-zinc-900/40 p-6 relative overflow-hidden flex flex-col"
+                        className="md:col-span-2 rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise p-6 relative overflow-hidden flex flex-col"
                     >
                         <div className="absolute inset-0 bg-dot-pattern bg-dot-sm opacity-20 pointer-events-none" />
                         <div className="relative z-10 flex justify-between items-start mb-4">
@@ -188,7 +188,7 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
                         initial={{ opacity: 0, scale: 0.98 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.1 }}
-                        className="md:col-span-1 rounded-xl border border-zinc-800 bg-zinc-900/40 p-6 flex flex-col items-center justify-between"
+                        className="md:col-span-1 rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise p-6 flex flex-col items-center justify-between"
                     >
                         <h3 className="text-zinc-400 text-sm font-medium self-start w-full">Status Breakdown</h3>
                         <div className="h-[200px] w-full mt-4">
@@ -227,7 +227,7 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
                         initial={{ opacity: 0, scale: 0.98 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="md:col-span-1 rounded-xl border border-zinc-800 bg-zinc-900/40 p-6 flex flex-col"
+                        className="md:col-span-1 rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise p-6 flex flex-col"
                     >
                         <h3 className="text-zinc-400 text-sm font-medium mb-4">Pipeline Funnel</h3>
                         <div className="flex-1 w-full -ml-4">
@@ -255,7 +255,7 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="rounded-xl border border-zinc-800 bg-zinc-900/40 overflow-hidden"
+                    className="rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise overflow-hidden"
                 >
                     <div className="px-6 py-4 border-b border-zinc-800/50 flex items-center justify-between">
                         <div className="flex items-center gap-2">

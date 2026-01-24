@@ -65,3 +65,12 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #27272a transparent;
 }
+
+.bg-dot-pattern {
+  background-image: var(--background-image-dot-pattern);
+  background-size: var(--background-size-dot-sm);
+}
+
+.bg-noise {
+  background-image: var(--background-image-noise);
+}

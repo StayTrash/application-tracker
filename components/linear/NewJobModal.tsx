@@ -176,26 +176,26 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
                                                 {formData.dateAdded ? format(formData.dateAdded, "PPP") : <span>Pick a date</span>}
                                             </button>
                                         </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0 bg-zinc-950 border-zinc-800" align="start">
+                                        <PopoverContent className="w-auto p-0 bg-zinc-950/95 border-zinc-800/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/5" align="start">
                                             <Calendar
                                                 mode="single"
                                                 selected={formData.dateAdded}
                                                 onSelect={(date) => date && setFormData({ ...formData, dateAdded: date })}
                                                 initialFocus
-                                                className="p-3 pointer-events-auto"
+                                                className="p-4 pointer-events-auto"
                                             />
-                                            <div className="flex items-center justify-between p-3 border-t border-zinc-800/50 bg-zinc-900/50">
+                                            <div className="flex items-center justify-between p-3 border-t border-zinc-800/50 bg-zinc-900/30">
                                                 <button
                                                     type="button"
                                                     onClick={() => setFormData({ ...formData, dateAdded: undefined as any })} // Handle clear
-                                                    className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors font-medium"
+                                                    className="px-3 py-1.5 rounded-full text-[10px] font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors"
                                                 >
                                                     Clear
                                                 </button>
                                                 <button
                                                     type="button"
                                                     onClick={() => setFormData({ ...formData, dateAdded: new Date() })}
-                                                    className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
+                                                    className="px-3 py-1.5 rounded-full text-[10px] font-medium text-indigo-100 bg-indigo-600 hover:bg-indigo-500 shadow-md shadow-indigo-500/20 transition-all hover:scale-105 active:scale-95"
                                                 >
                                                     Today
                                                 </button>
