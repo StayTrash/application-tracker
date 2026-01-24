@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, LayoutGrid, Kanban, Zap, Layers } from 'lucide-react';
+import { ArrowRight, LayoutGrid, Kanban, Zap, Layers, Search, Command, BarChart3, ArrowUpRight } from 'lucide-react';
 import { signIn, useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 
@@ -56,7 +56,7 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6 inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/50 text-xs text-zinc-400 backdrop-blur-sm"
+          className="mb-6 inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-800 bg-zinc-900/50 text-xs text-zinc-400 backdrop-blur-sm hover:border-zinc-700 transition-colors cursor-default"
         >
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
@@ -107,89 +107,197 @@ export default function Home() {
           </button>
         </motion.div>
 
-        {/* Hero Visual / Bento Grid Preview */}
+        {/* BENTO GRID */}
         <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="mt-24 w-full grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6"
+          className="mt-24 w-full grid grid-cols-1 md:grid-cols-6 lg:grid-rows-2 gap-4 max-w-6xl mx-auto h-[800px] md:h-[500px]"
         >
-          {/* Card 1 */}
-          <div className="md:col-span-2 rounded-2xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-md p-8 flex flex-col overflow-hidden relative group text-left">
-            <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="z-10 flex flex-col h-full">
-              <div className="h-10 w-10 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center mb-4">
-                <Kanban size={20} className="text-indigo-400" />
+          {/* CARD 1: Kanban Workflow (Large - 4 cols) */}
+          <motion.div
+            whileHover="hover"
+            className="md:col-span-4 row-span-1 rounded-3xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-md p-8 flex flex-col justify-between relative overflow-hidden group hover:border-zinc-700/80 transition-all duration-500 shadow-inner-light"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            {/* Content */}
+            <div className="z-10 text-left">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-indigo-400">
+                  <Kanban size={20} />
+                </div>
+                <h3 className="text-xl font-medium text-zinc-200">Kanban Workflow</h3>
               </div>
-              <h3 className="text-xl font-medium text-zinc-100 mb-2">Kanban Workflow</h3>
-              <p className="text-zinc-500 text-sm leading-relaxed max-w-md">
-                Drag and drop applications through pipeline stages. Visualize your progress with a board designed for high-velocity job hunting.
+              <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
+                Visualize your job search pipeline. Drag, drop, and track applications from "Applied" to "Offer" with fluid animations.
               </p>
+            </div>
 
-              {/* Mock Board UI */}
-              <div className="mt-8 flex gap-4 opacity-50 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500">
-                <div className="w-40 h-32 rounded-lg border border-zinc-700 bg-zinc-900/50 p-3 space-y-2">
-                  <div className="h-2 w-12 bg-zinc-700 rounded-full" />
-                  <div className="h-16 w-full rounded border border-zinc-700 bg-zinc-800/50" />
+            {/* Animation Container */}
+            <div className="absolute bottom-0 right-0 w-[400px] h-[200px] mask-gradient-b">
+              {/* Fake Columns */}
+              <div className="flex gap-4 h-full px-4 items-end transform translate-y-4">
+                {/* Column 1 */}
+                <div className="w-1/3 h-[90%] bg-zinc-800/20 rounded-t-xl border-x border-t border-zinc-800/30 p-3 space-y-3">
+                  <div className="h-2 w-16 bg-zinc-800 rounded-full" />
+                  {/* Static Cards */}
+                  <div className="h-16 w-full rounded-lg bg-zinc-900/50 border border-zinc-800/50" />
+                  <div className="h-16 w-full rounded-lg bg-zinc-900/50 border border-zinc-800/50" />
                 </div>
-                <div className="w-40 h-32 rounded-lg border border-zinc-700 bg-zinc-900/50 p-3 space-y-2">
-                  <div className="h-2 w-16 bg-indigo-500/20 rounded-full" />
-                  <div className="h-16 w-full rounded border border-indigo-500/20 bg-indigo-500/10" />
+                {/* Column 2 */}
+                <div className="w-1/3 h-[110%] bg-zinc-800/20 rounded-t-xl border-x border-t border-zinc-800/30 p-3 space-y-3">
+                  <div className="h-2 w-20 bg-zinc-800 rounded-full" />
+                  <div className="h-16 w-full rounded-lg bg-zinc-900/50 border border-zinc-800/50 opacity-50" />
+
+                  {/* Moving Card */}
+                  <motion.div
+                    variants={{
+                      hover: { x: "100%", y: -20, rotate: 3, scale: 1.05, opacity: 0.8 }
+                    }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className="h-16 w-full rounded-lg bg-indigo-500/10 border border-indigo-500/30 relative flex items-center justify-center"
+                  >
+                    <div className="h-2 w-12 bg-indigo-500/30 rounded-full absolute top-3 left-3" />
+                  </motion.div>
+                </div>
+                {/* Column 3 */}
+                <div className="w-1/3 h-[95%] bg-zinc-800/20 rounded-t-xl border-x border-t border-zinc-800/30 p-3 space-y-3">
+                  <div className="h-2 w-12 bg-zinc-800 rounded-full" />
+                  {/* Target area */}
+                  <motion.div
+                    variants={{
+                      hover: { backgroundColor: "rgba(99, 102, 241, 0.1)", borderColor: "rgba(99, 102, 241, 0.3)" }
+                    }}
+                    className="h-24 w-full rounded-lg border-2 border-dashed border-zinc-800 transition-colors"
+                  />
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Card 2 */}
-          <div className="md:col-span-1 rounded-2xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-md p-8 flex flex-col relative group text-left">
-            <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="h-10 w-10 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center mb-4">
-              <LayoutGrid size={20} className="text-emerald-400" />
-            </div>
-            <h3 className="text-xl font-medium text-zinc-100 mb-2">Real-time Metrics</h3>
-            <p className="text-zinc-500 text-sm leading-relaxed mb-6">
-              Track offer rates, interview velocity, and salary ranges.
-            </p>
-            <div className="mt-auto rounded-lg border border-zinc-800 bg-zinc-950 p-4">
-              <div className="flex items-end gap-2">
-                <div className="w-2 bg-zinc-800 h-8 rounded-t-sm" />
-                <div className="w-2 bg-zinc-800 h-12 rounded-t-sm" />
-                <div className="w-2 bg-indigo-500 h-16 rounded-t-sm" />
-                <div className="w-2 bg-zinc-800 h-10 rounded-t-sm" />
-                <div className="w-2 bg-zinc-800 h-14 rounded-t-sm" />
-              </div>
-            </div>
-          </div>
+          {/* CARD 2: Metrics (Tall - 2 cols) */}
+          <motion.div
+            whileHover="hover"
+            className="md:col-span-2 md:row-span-2 rounded-3xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-md p-8 flex flex-col relative overflow-hidden group hover:border-zinc-700/80 transition-all duration-500 shadow-inner-light"
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-zinc-800/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-          {/* Card 3 */}
-          <div className="md:col-span-3 rounded-2xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-md p-8 flex flex-col md:flex-row items-center justify-between gap-8 relative group text-left">
-            <div className="absolute inset-0 bg-gradient-to-r from-zinc-800/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="max-w-xl">
-              <div className="h-10 w-10 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center mb-4">
-                <Zap size={20} className="text-amber-400" />
+            <div className="z-10 mb-8 text-left">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-emerald-400">
+                  <BarChart3 size={20} />
+                </div>
+                <h3 className="text-xl font-medium text-zinc-200">Metrics</h3>
               </div>
-              <h3 className="text-xl font-medium text-zinc-100 mb-2">Keyboard First Design</h3>
               <p className="text-zinc-500 text-sm leading-relaxed">
-                Navigate your entire job search without leaving the keyboard. <br />
-                Use <kbd className="px-1.5 py-0.5 rounded border border-zinc-700 bg-zinc-800 text-xs font-mono text-zinc-300">Cmd+K</kbd> to search, filter, and manage applications instantly.
+                Track your application velocity and interview rates over time.
               </p>
             </div>
-            <div className="flex-1 w-full max-w-sm rounded-lg border border-zinc-800 bg-zinc-950/50 p-4 font-mono text-xs text-zinc-400 shadow-2xl">
-              <div className="flex items-center gap-2 mb-3 border-b border-zinc-800 pb-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50" />
-                <div className="w-3 h-3 rounded-full bg-amber-500/20 border border-amber-500/50" />
-                <div className="w-3 h-3 rounded-full bg-emerald-500/20 border border-emerald-500/50" />
-              </div>
-              <div className="space-y-1">
-                <div className="text-zinc-500">// Search for roles</div>
-                <div className="flex items-center gap-2">
-                  <span className="text-indigo-400">❯</span>
-                  <span className="text-zinc-100">Senior Frontend...</span>
-                  <span className="w-1.5 h-4 bg-zinc-500 animate-pulse" />
+
+            {/* Animated Bars */}
+            <div className="flex-1 flex items-end justify-between gap-2 px-2 pb-2">
+              {[30, 45, 25, 60, 40, 75, 50].map((height, i) => (
+                <div key={i} className="w-full flex flex-col justify-end gap-2 group-hover:gap-3 transition-all duration-500 h-64">
+                  {/* Floating Label */}
+                  <motion.div
+                    variants={{
+                      hover: { opacity: 1, y: 0 }
+                    }}
+                    initial={{ opacity: 0, y: 10 }}
+                    className="text-[10px] text-zinc-400 text-center"
+                  >
+                    {height * 1.5}
+                  </motion.div>
+
+                  {/* Bar */}
+                  <motion.div
+                    className={`w-full rounded-t-sm ${i === 5 ? 'bg-indigo-500' : 'bg-zinc-800'}`}
+                    initial={{ height: `${height}%` }}
+                    variants={{
+                      hover: { height: `${height * 1.3}%` }
+                    }}
+                    transition={{ duration: 0.4, delay: i * 0.05 }}
+                  />
                 </div>
+              ))}
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-zinc-800/50 flex items-center justify-between text-xs text-zinc-500">
+              <span>Weekly Growth</span>
+              <span className="flex items-center gap-1 text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded">
+                <ArrowUpRight size={12} /> +24%
+              </span>
+            </div>
+          </motion.div>
+
+          {/* CARD 3: Keyboard (Large - 4 cols) */}
+          <motion.div
+            whileHover="hover"
+            className="md:col-span-4 row-span-1 rounded-3xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-md p-8 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group hover:border-zinc-700/80 transition-all duration-500 shadow-inner-light"
+          >
+            <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            <div className="z-10 max-w-sm text-left">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-amber-400">
+                  <Command size={20} />
+                </div>
+                <h3 className="text-xl font-medium text-zinc-200">Keyboard First</h3>
+              </div>
+              <p className="text-zinc-500 text-sm leading-relaxed mb-4">
+                Built for speed. Navigate, search, and manage your pipeline without lifting your hands from the keyboard.
+              </p>
+              <div className="flex items-center gap-2">
+                <kbd className="px-2 py-1 rounded border border-zinc-700 bg-zinc-800/50 text-xs font-mono text-zinc-300 shadow-sm">Cmd</kbd>
+                <span className="text-zinc-600 text-xs">+</span>
+                <kbd className="px-2 py-1 rounded border border-zinc-700 bg-zinc-800/50 text-xs font-mono text-zinc-300 shadow-sm">K</kbd>
               </div>
             </div>
-          </div>
+
+            {/* Interactive Command Palette Visual */}
+            <div className="relative w-full max-w-sm">
+              <motion.div
+                className="rounded-xl border border-zinc-800 bg-zinc-950 shadow-2xl overflow-hidden"
+                variants={{
+                  hover: { y: -5, boxShadow: "0 20px 40px -10px rgba(0,0,0,0.5)" }
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                {/* Search Input */}
+                <div className="flex items-center gap-3 px-4 py-3 border-b border-zinc-800">
+                  <Search size={14} className="text-zinc-500" />
+                  <div className="h-4 w-1 bg-indigo-500 animate-pulse" />
+                  <span className="text-sm text-zinc-400">Search applications...</span>
+                </div>
+
+                {/* Results */}
+                <div className="p-2 space-y-1">
+                  {['Create new application', 'Go to Dashboard', 'Filter by Offer'].map((item, i) => (
+                    <motion.div
+                      key={i}
+                      variants={{
+                        hover: {
+                          backgroundColor: i === 0 ? "rgba(39, 39, 42, 1)" : "transparent",
+                          x: i === 0 ? 4 : 0
+                        }
+                      }}
+                      className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm ${i === 0 ? 'text-zinc-200' : 'text-zinc-500'}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        {i === 0 ? <Zap size={12} className="text-amber-400" /> : <div className="w-3" />}
+                        {item}
+                      </div>
+                      {i === 0 && <span className="text-[10px] text-zinc-600 font-mono">↵</span>}
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Glow effect behind */}
+              <div className="absolute -inset-4 bg-indigo-500/20 blur-2xl -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full" />
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Features List */}
@@ -199,8 +307,8 @@ export default function Home() {
             { title: 'Instant Search', desc: 'Find any application in milliseconds.' },
             { title: 'Export Ready', desc: 'Download your data as CSV or JSON anytime.' },
           ].map((feature, i) => (
-            <div key={i} className="space-y-3">
-              <div className="h-px w-8 bg-indigo-500 mb-4" />
+            <div key={i} className="group space-y-3">
+              <div className="h-px w-8 bg-zinc-700 group-hover:w-16 group-hover:bg-indigo-500 transition-all duration-500" />
               <h4 className="text-zinc-100 font-medium">{feature.title}</h4>
               <p className="text-zinc-500 text-sm">{feature.desc}</p>
             </div>
