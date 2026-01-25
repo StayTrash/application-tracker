@@ -60,8 +60,8 @@ const LandingPage: React.FC = () => {
       {/* Navbar */}
       <nav className="fixed top-0 inset-x-0 h-16 border-b border-zinc-800/50 bg-zinc-950/80 backdrop-blur-md z-50 flex items-center justify-between px-6 lg:px-12">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-glow">
-            <Layers size={18} className="text-white" />
+          <div className="h-10 w-10 flex items-center justify-center">
+            <img src="/logo.png" alt="LinearFlow Logo" className="h-full w-full object-contain drop-shadow-lg" />
           </div>
           <span className="font-semibold text-zinc-100 tracking-tight">LinearFlow</span>
         </div>

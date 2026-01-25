@@ -20,7 +20,7 @@ A premium, issue-tracking style job application tracker built with Next.js 15, M
 - **Styling**: Tailwind CSS v4, CSS Modules (for custom textures)
 - **Database**: MongoDB (via Mongoose)
 - **Auth**: NextAuth.js (Google Provider)
-- **Animation**: Framer Motion
+- **Animation**: Motion
 - **Charts**: Recharts
 - **Icons**: Lucide React
 - **Date Handling**: date-fns, react-day-picker

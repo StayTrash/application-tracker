@@ -4,7 +4,6 @@ import React from 'react';
 import {
     LayoutGrid,
     Kanban,
-    Settings,
     Search,
     Bell,
     Command,
@@ -33,8 +32,8 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
             <aside className="w-16 border-r border-zinc-800/50 flex flex-col items-center py-6 bg-zinc-950/80 backdrop-blur-md z-50">
                 {/* Brand */}
                 <div className="mb-8">
-                    <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-glow">
-                        <Layers size={18} className="text-white" />
+                    <div className="h-10 w-10 flex items-center justify-center">
+                        <img src="/logo.png" alt="App Logo" className="h-full w-full object-contain drop-shadow-lg" />
                     </div>
                 </div>
 
@@ -62,12 +61,6 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
 
                 {/* Footer Actions */}
                 <div className="mt-auto flex flex-col gap-4 w-full px-2">
-                    <NavIcon
-                        icon={<Settings size={20} />}
-                        label="Settings"
-                        isActive={false}
-                        onClick={() => { }}
-                    />
 
                     <Popover>
                         <PopoverTrigger asChild>

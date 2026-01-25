@@ -3,8 +3,13 @@
 import React, { useMemo, useState } from 'react';
 import { Job } from '@/types';
 import { STATUS_COLORS } from '@/constants';
-import { ArrowUpDown, Filter, Download, Plus, Pencil, Trash2 } from 'lucide-react';
+import { ArrowUpDown, Filter, Download, Plus, Pencil, Trash2, Calendar as CalendarIcon, X } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { DateRange } from 'react-day-picker';
+import { format, isWithinInterval, startOfDay, endOfDay } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 interface JobsListProps {
     jobs: Job[];
@@ -15,9 +20,30 @@ interface JobsListProps {
 
 const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDeleteJob }) => {
     const [sortConfig, setSortConfig] = useState<{ key: keyof Job; direction: 'asc' | 'desc' } | null>(null);
+    const [dateRange, setDateRange] = useState<DateRange | undefined>();
+
+    const filteredJobs = useMemo(() => {
+        let filtered = [...jobs];
+
+        // Date Filter
+        if (dateRange?.from) {
+            filtered = filtered.filter(job => {
+                const jobDate = new Date(job.dateAdded);
+                if (!dateRange.to) {
+                    return jobDate >= startOfDay(dateRange.from!) && jobDate <= endOfDay(dateRange.from!);
+                }
+                return isWithinInterval(jobDate, {
+                    start: startOfDay(dateRange.from!),
+                    end: endOfDay(dateRange.to!)
+                });
+            });
+        }
+
+        return filtered;
+    }, [jobs, dateRange]);
 
     const sortedJobs = useMemo(() => {
-        let sortableJobs = [...jobs];
+        let sortableJobs = [...filteredJobs];
         if (sortConfig !== null) {
             sortableJobs.sort((a, b) => {
                 // @ts-ignore
@@ -32,7 +58,7 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
             });
         }
         return sortableJobs;
-    }, [jobs, sortConfig]);
+    }, [filteredJobs, sortConfig]);
 
     const requestSort = (key: keyof Job) => {
         let direction: 'asc' | 'desc' = 'asc';
@@ -49,12 +75,51 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
                 <div className="flex items-center gap-4">
                     <h2 className="text-sm font-medium text-zinc-300">All Applications</h2>
                     <span className="h-4 w-px bg-zinc-800" />
-                    <span className="text-xs text-zinc-500 tabular-nums">{jobs.length} records</span>
+                    <span className="text-xs text-zinc-500 tabular-nums">{filteredJobs.length} records</span>
                 </div>
                 <div className="flex items-center gap-3">
-                    <button className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-zinc-800 bg-zinc-900 text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors">
-                        <Filter size={14} /> Filter
-                    </button>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <button className={cn(
+                                "flex items-center gap-2 px-3 py-1.5 rounded-md border text-xs font-medium transition-colors",
+                                dateRange ? "bg-indigo-500/10 border-indigo-500/50 text-indigo-400" : "border-zinc-800 bg-zinc-900 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700"
+                            )}>
+                                <Filter size={14} />
+                                {dateRange?.from ? (
+                                    dateRange.to ? (
+                                        <>
+                                            {format(dateRange.from, "LLL dd, y")} - {format(dateRange.to, "LLL dd, y")}
+                                        </>
+                                    ) : (
+                                        format(dateRange.from, "LLL dd, y")
+                                    )
+                                ) : (
+                                    "Filter Date"
+                                )}
+                            </button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-4 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl shadow-black/50 min-w-[340px]" align="end">
+                            <Calendar
+                                initialFocus
+                                mode="range"
+                                defaultMonth={dateRange?.from}
+                                selected={dateRange}
+                                onSelect={setDateRange}
+                                numberOfMonths={2}
+                                className="p-4"
+                            />
+                            {dateRange && (
+                                <div className="p-3 border-t border-zinc-800/50 bg-zinc-900/30 flex justify-end">
+                                    <button
+                                        onClick={() => setDateRange(undefined)}
+                                        className="text-xs text-zinc-400 hover:text-white transition-colors"
+                                    >
+                                        Clear Filter
+                                    </button>
+                                </div>
+                            )}
+                        </PopoverContent>
+                    </Popover>
                     <button className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-zinc-800 bg-zinc-900 text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors">
                         <Download size={14} /> Export
                     </button>
@@ -92,14 +157,11 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
                             <th className="px-8 py-4 w-12"></th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-zinc-800/30">
+                    <tbody className="">
                         {sortedJobs.map((job, index) => (
-                            <motion.tr
+                            <tr
                                 key={job.id}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: index * 0.03 }}
-                                className="group hover:bg-zinc-900/60 transition-colors"
+                                className="group hover:bg-zinc-900/60 transition-colors border-b border-zinc-800/30 last:border-0"
                             >
                                 <td className="px-8 py-4 text-center text-zinc-600 text-xs font-mono">
                                     {(index + 1).toString().padStart(2, '0')}
@@ -143,7 +205,7 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
                                         </button>
                                     </div>
                                 </td>
-                            </motion.tr>
+                            </tr>
                         ))}
                     </tbody>
                 </table>

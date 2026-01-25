@@ -157,29 +157,31 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
                         className="md:col-span-2 rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise p-6 relative overflow-hidden flex flex-col"
                     >
                         <div className="absolute inset-0 bg-dot-pattern bg-dot-sm opacity-20 pointer-events-none" />
-                        <div className="relative z-10 flex justify-between items-start mb-4">
+                        <div className="relative z-10 flex justify-between items-start mb-4 shrink-0">
                             <h3 className="text-zinc-400 text-sm font-medium">Application Velocity</h3>
                             <button className="text-zinc-600 hover:text-zinc-300 transition-colors"><MoreHorizontal size={16} /></button>
                         </div>
-                        <div className="flex-1 w-full -ml-4">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <AreaChart data={velocityData.length > 0 ? velocityData : [{ name: 'Today', applications: 0 }]}>
-                                    <defs>
-                                        <linearGradient id="colorApps" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                                            <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
-                                        </linearGradient>
-                                    </defs>
-                                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#52525b', fontSize: 10 }} dy={10} />
-                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#52525b', fontSize: 10 }} width={30} />
-                                    <Tooltip
-                                        contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', fontSize: '12px' }}
-                                        itemStyle={{ color: '#e4e4e7' }}
-                                        cursor={{ stroke: '#3f3f46', strokeDasharray: '4 4' }}
-                                    />
-                                    <Area type="monotone" dataKey="applications" stroke="#6366f1" strokeWidth={2} fillOpacity={1} fill="url(#colorApps)" />
-                                </AreaChart>
-                            </ResponsiveContainer>
+                        <div className="flex-1 min-h-0 w-full -ml-4 relative">
+                            <div className="absolute inset-0">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <AreaChart data={velocityData.length > 0 ? velocityData : [{ name: 'Today', applications: 0 }]} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                                        <defs>
+                                            <linearGradient id="colorApps" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
+                                                <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                                            </linearGradient>
+                                        </defs>
+                                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#52525b', fontSize: 10 }} dy={10} />
+                                        <YAxis axisLine={false} tickLine={false} tick={{ fill: '#52525b', fontSize: 10 }} width={30} />
+                                        <Tooltip
+                                            contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', fontSize: '12px' }}
+                                            itemStyle={{ color: '#e4e4e7' }}
+                                            cursor={{ stroke: '#3f3f46', strokeDasharray: '4 4' }}
+                                        />
+                                        <Area type="monotone" dataKey="applications" stroke="#6366f1" strokeWidth={2} fillOpacity={1} fill="url(#colorApps)" />
+                                    </AreaChart>
+                                </ResponsiveContainer>
+                            </div>
                         </div>
                     </motion.div>
 
@@ -190,29 +192,31 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
                         transition={{ delay: 0.1 }}
                         className="md:col-span-1 rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise p-6 flex flex-col items-center justify-between"
                     >
-                        <h3 className="text-zinc-400 text-sm font-medium self-start w-full">Status Breakdown</h3>
-                        <div className="h-[200px] w-full mt-4">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie
-                                        data={statusData}
-                                        innerRadius={60}
-                                        outerRadius={80}
-                                        paddingAngle={5}
-                                        dataKey="value"
-                                    >
-                                        {statusData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[entry.name as keyof typeof COLORS] || '#71717a'} stroke="rgba(0,0,0,0)" />
-                                        ))}
-                                    </Pie>
-                                    <Tooltip
-                                        contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', fontSize: '12px' }}
-                                        itemStyle={{ color: '#e4e4e7' }}
-                                    />
-                                </PieChart>
-                            </ResponsiveContainer>
+                        <h3 className="text-zinc-400 text-sm font-medium self-start w-full shrink-0">Status Breakdown</h3>
+                        <div className="h-[200px] w-full mt-4 min-h-0 relative">
+                            <div className="absolute inset-0">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie
+                                            data={statusData}
+                                            innerRadius={60}
+                                            outerRadius={80}
+                                            paddingAngle={5}
+                                            dataKey="value"
+                                        >
+                                            {statusData.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[entry.name as keyof typeof COLORS] || '#71717a'} stroke="rgba(0,0,0,0)" />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip
+                                            contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', fontSize: '12px' }}
+                                            itemStyle={{ color: '#e4e4e7' }}
+                                        />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            </div>
                         </div>
-                        <div className="flex flex-wrap gap-2 justify-center mt-2">
+                        <div className="flex flex-wrap gap-2 justify-center mt-2 shrink-0">
                             {statusData.slice(0, 3).map((entry) => (
                                 <div key={entry.name} className="flex items-center gap-1.5 text-[10px] text-zinc-500">
                                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[entry.name as keyof typeof COLORS] }} />
@@ -229,23 +233,25 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
                         transition={{ delay: 0.2 }}
                         className="md:col-span-1 rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise p-6 flex flex-col"
                     >
-                        <h3 className="text-zinc-400 text-sm font-medium mb-4">Pipeline Funnel</h3>
-                        <div className="flex-1 w-full -ml-4">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={funnelData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                                    <XAxis type="number" hide />
-                                    <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: '#71717a', fontSize: 10 }} width={60} />
-                                    <Tooltip
-                                        cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                                        contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', fontSize: '12px' }}
-                                    />
-                                    <Bar dataKey="count" fill="#3b82f6" radius={[0, 4, 4, 0]} barSize={20}>
-                                        {funnelData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[entry.name as keyof typeof COLORS] || '#71717a'} />
-                                        ))}
-                                    </Bar>
-                                </BarChart>
-                            </ResponsiveContainer>
+                        <h3 className="text-zinc-400 text-sm font-medium mb-4 shrink-0">Pipeline Funnel</h3>
+                        <div className="flex-1 min-h-0 w-full -ml-4 relative">
+                            <div className="absolute inset-0">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={funnelData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                                        <XAxis type="number" hide />
+                                        <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: '#71717a', fontSize: 10 }} width={60} />
+                                        <Tooltip
+                                            cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                                            contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', fontSize: '12px' }}
+                                        />
+                                        <Bar dataKey="count" fill="#3b82f6" radius={[0, 4, 4, 0]} barSize={20}>
+                                            {funnelData.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[entry.name as keyof typeof COLORS] || '#71717a'} />
+                                            ))}
+                                        </Bar>
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
                         </div>
                     </motion.div>
                 </div>

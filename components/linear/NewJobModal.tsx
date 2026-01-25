@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { X, Calendar as CalendarIcon } from 'lucide-react';
+import { X, Calendar as CalendarIcon, ClipboardPaste, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Status, Job } from '@/types';
 import { Calendar } from '@/components/ui/calendar';
@@ -24,7 +24,8 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
         salary: '',
         status: 'Applied' as Status,
         dateAdded: new Date(),
-        tags: ''
+        tags: '',
+        link: ''
     });
 
     // Effect to populate form when editing or reset when adding
@@ -38,7 +39,8 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
                     salary: initialData.salary,
                     status: initialData.status,
                     dateAdded: initialData.dateAdded ? new Date(initialData.dateAdded) : new Date(),
-                    tags: Array.isArray(initialData.tags) ? initialData.tags.join(', ') : ''
+                    tags: Array.isArray(initialData.tags) ? initialData.tags.join(', ') : '',
+                    link: initialData.link || ''
                 });
             } else {
                 setFormData({
@@ -48,7 +50,8 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
                     salary: '',
                     status: 'Applied',
                     dateAdded: new Date(),
-                    tags: ''
+                    tags: '',
+                    link: ''
                 });
             }
         }
@@ -214,6 +217,49 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
                                     value={formData.tags}
                                     onChange={e => setFormData({ ...formData, tags: e.target.value })}
                                 />
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Job Link</label>
+                                <div className="relative">
+                                    <input
+                                        type="url"
+                                        placeholder="https://linkedin.com/jobs/..."
+                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-3 pr-20 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/20 transition-all"
+                                        value={formData.link}
+                                        onChange={e => setFormData({ ...formData, link: e.target.value })}
+                                    />
+                                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                                        {formData.link && (
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    navigator.clipboard.writeText(formData.link);
+                                                    // Optional: could add a toast here, but for now simple copy
+                                                }}
+                                                className="p-1.5 rounded-md text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 transition-colors"
+                                                title="Copy Link"
+                                            >
+                                                <Copy size={14} />
+                                            </button>
+                                        )}
+                                        <button
+                                            type="button"
+                                            onClick={async () => {
+                                                try {
+                                                    const text = await navigator.clipboard.readText();
+                                                    if (text) setFormData({ ...formData, link: text });
+                                                } catch (err) {
+                                                    console.error('Failed to read clipboard', err);
+                                                }
+                                            }}
+                                            className="p-1.5 rounded-md text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10 transition-colors"
+                                            title="Paste from Clipboard"
+                                        >
+                                            <ClipboardPaste size={14} />
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="pt-4 flex gap-3 border-t border-zinc-800/50 mt-4">
