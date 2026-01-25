@@ -27,6 +27,22 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
     const dispatch = useAppDispatch();
     const { currentView, searchQuery, toasts } = useAppSelector(state => state.ui);
     const { data: session } = useSession();
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    const [isMac, setIsMac] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                inputRef.current?.focus();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
 
     return (
         <div className="flex h-screen w-full bg-zinc-950 text-zinc-200 selection:bg-indigo-500/30 font-sans">
@@ -115,6 +131,7 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
                         <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-md bg-zinc-900/50 border border-zinc-800/50 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/20 text-xs text-zinc-500 transition-all cursor-text group w-64">
                             <Search size={14} className="group-hover:text-zinc-400 group-focus-within:text-indigo-400" />
                             <input
+                                ref={inputRef}
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => dispatch(setSearchQuery(e.target.value))}
@@ -122,7 +139,7 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
                                 className="bg-transparent border-none outline-none w-full text-zinc-200 placeholder:text-zinc-600 ml-2 h-full"
                             />
                             <kbd className="ml-auto flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-[10px] font-sans text-zinc-400">
-                                <Command size={10} /> K
+                                {isMac ? <Command size={10} /> : <span className="text-xs">Ctrl</span>} K
                             </kbd>
                         </div>
 
