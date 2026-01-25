@@ -33,7 +33,7 @@ export const fetchJobs = createAsyncThunk('jobs/fetchJobs', async () => {
     })) as Job[];
 });
 
-export const addJob = createAsyncThunk('jobs/addJob', async (jobData: Omit<Job, 'id' | 'logo' | 'tags'> & { tags: string }) => {
+export const addJob = createAsyncThunk('jobs/addJob', async (jobData: Omit<Job, 'id' | 'logo' | 'tags'> & { tags: string }, { dispatch }) => {
     const payload = {
         company: jobData.company,
         position: jobData.role,
@@ -53,7 +53,8 @@ export const addJob = createAsyncThunk('jobs/addJob', async (jobData: Omit<Job, 
     });
 
     if (!res.ok) throw new Error(await res.text());
-    return fetchJobs(); // Chain fetch to refresh
+    await dispatch(fetchJobs()); // Dispatch to refresh
+    return;
 });
 
 export const updateJob = createAsyncThunk('jobs/updateJob', async ({ id, data }: { id: string; data: Partial<Job> }) => {

@@ -17,6 +17,10 @@ const LandingPage: React.FC = () => {
     signIn('google', { callbackUrl: '/dashboard' });
   };
 
+  const handleGuestLogin = () => {
+    signIn('credentials', { email: 'guest@linearflow.app', callbackUrl: '/dashboard' });
+  };
+
   const { scrollY } = useScroll();
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
 
@@ -114,6 +118,13 @@ const LandingPage: React.FC = () => {
             <div className="relative z-10 flex items-center gap-2">
               Start Tracking
             </div>
+          </button>
+
+          <button
+            onClick={handleGuestLogin}
+            className="h-12 px-8 rounded-full bg-zinc-900/50 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 font-medium transition-all"
+          >
+            Guest Demo
           </button>
           <div className="h-8 w-px bg-zinc-800 hidden md:block" />
           <div className="hidden md:flex items-center gap-4 text-sm text-zinc-500">

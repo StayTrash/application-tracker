@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import connectDB from "@/lib/db";
 import User from "@/models/User";
 
@@ -8,6 +9,34 @@ export const authOptions: NextAuthOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID || "",
             clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+        }),
+        CredentialsProvider({
+            name: "Guest",
+            credentials: {
+                email: { label: "Email", type: "text" },
+            },
+            async authorize(credentials) {
+                if (credentials?.email === "guest@linearflow.app") {
+                    await connectDB();
+                    let user = await User.findOne({ email: "guest@linearflow.app" });
+
+                    if (!user) {
+                        user = await User.create({
+                            name: "Guest User",
+                            email: "guest@linearflow.app",
+                            image: `https://api.dicebear.com/9.x/avataaars/svg?seed=Guest`,
+                        });
+                    }
+
+                    return {
+                        id: user._id.toString(),
+                        name: user.name,
+                        email: user.email,
+                        image: user.image,
+                    };
+                }
+                return null;
+            },
         }),
     ],
     callbacks: {
