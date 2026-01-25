@@ -8,7 +8,8 @@ import {
     Bell,
     Command,
     Briefcase,
-    Layers
+    Layers,
+    FileText
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ToastContainer } from './Toast';
@@ -58,6 +59,12 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
                         label="Jobs"
                         isActive={currentView === 'list'}
                         onClick={() => dispatch(setCurrentView('list'))}
+                    />
+                    <NavIcon
+                        icon={<FileText size={20} />}
+                        label="Documents"
+                        isActive={currentView === 'documents'}
+                        onClick={() => dispatch(setCurrentView('documents'))}
                     />
                 </nav>
 

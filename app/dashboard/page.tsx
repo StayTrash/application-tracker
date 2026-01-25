@@ -8,6 +8,7 @@ import LinearShell from '@/components/linear/LinearShell';
 import Dashboard from '@/components/linear/Dashboard';
 import KanbanBoard from '@/components/linear/KanbanBoard';
 import JobsList from '@/components/linear/JobsList';
+import DocumentsView from '@/components/linear/DocumentsView';
 import NewJobModal from '@/components/linear/NewJobModal';
 // import { Toaster } from 'sonner'; // Using custom Toast component instead of sonner actually
 
@@ -106,6 +107,10 @@ const DashboardContent = () => {
                     onEditJob={handleEditJob}
                     onDeleteJob={handleDeleteJob}
                 />
+
+            )}
+            {currentView === 'documents' && (
+                <DocumentsView />
             )}
 
             <NewJobModal
