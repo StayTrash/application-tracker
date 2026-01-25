@@ -12,7 +12,8 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ToastContainer } from './Toast';
-import { useJobs } from '@/context/JobsContext';
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
+import { setCurrentView, setSearchQuery, removeToast } from '@/lib/store/features/ui/uiSlice';
 import { useSession, signOut } from 'next-auth/react';
 import { LogOut } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -22,7 +23,8 @@ interface LinearShellProps {
 }
 
 const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
-    const { currentView, setCurrentView, searchQuery, setSearchQuery, toasts, removeToast } = useJobs();
+    const dispatch = useAppDispatch();
+    const { currentView, searchQuery, toasts } = useAppSelector(state => state.ui);
     const { data: session } = useSession();
 
     return (
@@ -43,19 +45,19 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
                         icon={<LayoutGrid size={20} />}
                         label="Dashboard"
                         isActive={currentView === 'dashboard'}
-                        onClick={() => setCurrentView('dashboard')}
+                        onClick={() => dispatch(setCurrentView('dashboard'))}
                     />
                     <NavIcon
                         icon={<Kanban size={20} />}
                         label="Board"
                         isActive={currentView === 'kanban'}
-                        onClick={() => setCurrentView('kanban')}
+                        onClick={() => dispatch(setCurrentView('kanban'))}
                     />
                     <NavIcon
                         icon={<Briefcase size={20} />}
                         label="Jobs"
                         isActive={currentView === 'list'}
-                        onClick={() => setCurrentView('list')}
+                        onClick={() => dispatch(setCurrentView('list'))}
                     />
                 </nav>
 
@@ -108,7 +110,7 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
                             <input
                                 type="text"
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) => dispatch(setSearchQuery(e.target.value))}
                                 placeholder="Search applications..."
                                 className="bg-transparent border-none outline-none w-full text-zinc-200 placeholder:text-zinc-600 ml-2 h-full"
                             />
@@ -131,7 +133,7 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
             </main>
 
             {/* Global Toast Container */}
-            <ToastContainer toasts={toasts} removeToast={removeToast} />
+            <ToastContainer toasts={toasts} removeToast={(id) => dispatch(removeToast(id))} />
         </div>
     );
 };
