@@ -47,7 +47,7 @@ export async function POST(req: Request) {
                 dbUser = await User.create({
                     name: session.user.name,
                     email: session.user.email,
-                    image: session.user.image,
+                    image: session.user.image || undefined,
                 });
             } else {
                 return new NextResponse('User not found', { status: 404 });

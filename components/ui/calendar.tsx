@@ -4,7 +4,7 @@ import * as React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { DayPicker } from 'react-day-picker';
 import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button'; // Assuming button component exists or will create utils? Wait, no button component yet.
+// Button import removed
 // I will remove buttonVariants dependency for now and hardcode styles or create button component.
 // Reverting to basic styles.
 
@@ -49,10 +49,7 @@ function Calendar({
                 day_hidden: 'invisible',
                 ...classNames,
             }}
-            components={{
-                IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-                IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
-            }}
+            // components prop removed to use defaults or slots in v9
             {...props}
         />
     );
