@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
-import { ArrowRight, LayoutGrid, Kanban, Zap, Layers, Search, Command, BarChart3, ArrowUpRight, Check } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
+import { ArrowRight, LayoutGrid, Kanban, Zap, Layers, Search, Command, BarChart3, ArrowUpRight, Check, Sparkles, MousePointer2, GripVertical, MoreHorizontal, Cpu, Fingerprint } from 'lucide-react';
 import { useSession, signIn } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 
-export default function Home() {
+const LandingPage: React.FC = () => {
   const { data: session } = useSession();
 
   if (session) {
@@ -79,7 +79,7 @@ export default function Home() {
 
       <main className="pt-40 pb-20 px-6 lg:px-12 max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
 
-        {/* Hero Title - Metallic Gradient */}
+        {/* Hero Title */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -122,9 +122,8 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* 3D Interface Preview with Micro-interactions */}
-        <div className="w-full max-w-6xl mx-auto relative perspective-1000" style={{ perspective: '1200px' }}>
-          {/* Ambient Glow Behind App */}
+        {/* 3D Interface Preview */}
+        <div className="w-full max-w-6xl mx-auto relative perspective-1000 mb-40" style={{ perspective: '1200px' }}>
           <motion.div
             style={{ y: y2 }}
             className="absolute inset-0 bg-gradient-to-t from-indigo-500/20 via-violet-500/10 to-transparent blur-3xl -z-10 rounded-full opacity-60"
@@ -153,321 +152,302 @@ export default function Home() {
 
             {/* Mock UI Content */}
             <div className="p-8 grid grid-cols-1 md:grid-cols-4 gap-8 min-h-[500px] text-left">
-
-              {/* Sidebar Mock */}
               <div className="hidden md:flex flex-col gap-4 border-r border-zinc-800/50 pr-6">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.5, type: 'spring' }}
-                  className="h-8 w-8 rounded bg-gradient-to-br from-indigo-500 to-violet-600 mb-6 shadow-glow"
-                />
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5, type: 'spring' }} className="h-8 w-8 rounded bg-gradient-to-br from-indigo-500 to-violet-600 mb-6 shadow-glow" />
                 {[1, 2, 3, 4].map(i => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5 + (i * 0.1) }}
-                    className="h-4 w-full rounded bg-zinc-900 overflow-hidden relative"
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-zinc-800 to-transparent"
-                      animate={{ x: ['-100%', '100%'] }}
-                      transition={{ repeat: Infinity, duration: 2, delay: i * 0.5, ease: "linear" }}
-                    />
+                  <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + (i * 0.1) }} className="h-4 w-full rounded bg-zinc-900 overflow-hidden relative">
+                    <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-zinc-800 to-transparent" animate={{ x: ['-100%', '100%'] }} transition={{ repeat: Infinity, duration: 2, delay: i * 0.5, ease: "linear" }} />
                   </motion.div>
                 ))}
               </div>
 
-              {/* Main Board Mock */}
               <div className="md:col-span-3 grid grid-cols-3 gap-6">
-                {/* Column 1 */}
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="h-4 w-16 bg-zinc-800 rounded" />
-                    <div className="h-4 w-6 bg-zinc-800 rounded" />
-                  </div>
-                  {/* Card 1 */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 }}
-                    className="p-4 rounded-lg border border-zinc-800 bg-zinc-900/50 space-y-3 relative overflow-hidden"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded bg-zinc-800" />
-                      <div className="space-y-1">
-                        <div className="h-3 w-24 bg-zinc-800 rounded" />
-                        <div className="h-2 w-16 bg-zinc-800/50 rounded" />
-                      </div>
-                    </div>
+                  <div className="flex items-center justify-between mb-4"><div className="h-4 w-16 bg-zinc-800 rounded" /><div className="h-4 w-6 bg-zinc-800 rounded" /></div>
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }} className="p-4 rounded-lg border border-zinc-800 bg-zinc-900/50 space-y-3 relative overflow-hidden">
+                    <div className="flex items-center gap-3"><div className="h-8 w-8 rounded bg-zinc-800" /><div className="space-y-1"><div className="h-3 w-24 bg-zinc-800 rounded" /><div className="h-2 w-16 bg-zinc-800/50 rounded" /></div></div>
                     <div className="h-2 w-full bg-zinc-800/30 rounded" />
-                    {/* Shimmer */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12"
-                      animate={{ x: ['-100%', '200%'] }}
-                      transition={{ repeat: Infinity, duration: 3, delay: 0, ease: "easeInOut" }}
-                    />
+                    <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12" animate={{ x: ['-100%', '200%'] }} transition={{ repeat: Infinity, duration: 3, delay: 0, ease: "easeInOut" }} />
                   </motion.div>
-                  {/* Card 2 */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.9 }}
-                    className="p-4 rounded-lg border border-zinc-800 bg-zinc-900/50 space-y-3 opacity-60"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded bg-zinc-800" />
-                      <div className="space-y-1">
-                        <div className="h-3 w-20 bg-zinc-800 rounded" />
-                        <div className="h-2 w-12 bg-zinc-800/50 rounded" />
-                      </div>
-                    </div>
-                  </motion.div>
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }} className="p-4 rounded-lg border border-zinc-800 bg-zinc-900/50 space-y-3 opacity-60"><div className="flex items-center gap-3"><div className="h-8 w-8 rounded bg-zinc-800" /><div className="space-y-1"><div className="h-3 w-20 bg-zinc-800 rounded" /><div className="h-2 w-12 bg-zinc-800/50 rounded" /></div></div></motion.div>
                 </div>
 
-                {/* Column 2 - Active */}
                 <div className="space-y-4 mt-12">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="h-4 w-20 bg-zinc-800 rounded" />
-                    <div className="h-4 w-6 bg-zinc-800 rounded" />
-                  </div>
-                  <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{
-                      y: [0, -8, 0],
-                      opacity: 1,
-                      boxShadow: [
-                        "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                        "0 20px 30px -5px rgba(99, 102, 241, 0.15)", // Indigo glow
-                        "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
-                      ]
-                    }}
-                    transition={{
-                      y: {
-                        repeat: Infinity,
-                        duration: 5,
-                        ease: "easeInOut"
-                      },
-                      boxShadow: {
-                        repeat: Infinity,
-                        duration: 5,
-                        ease: "easeInOut"
-                      },
-                      opacity: { duration: 0.5, delay: 1 }
-                    }}
-                    className="p-4 rounded-lg border border-indigo-500/40 bg-zinc-900/90 backdrop-blur-sm space-y-3 relative overflow-hidden z-20"
-                    style={{ transformStyle: 'preserve-3d', translateZ: '20px' }}
-                  >
+                  <div className="flex items-center justify-between mb-4"><div className="h-4 w-20 bg-zinc-800 rounded" /><div className="h-4 w-6 bg-zinc-800 rounded" /></div>
+                  <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: [0, -8, 0], opacity: 1, boxShadow: ["0 4px 6px -1px rgba(0, 0, 0, 0.1)", "0 20px 30px -5px rgba(99, 102, 241, 0.15)", "0 4px 6px -1px rgba(0, 0, 0, 0.1)"] }} transition={{ y: { repeat: Infinity, duration: 5, ease: "easeInOut" }, boxShadow: { repeat: Infinity, duration: 5, ease: "easeInOut" }, opacity: { duration: 0.5, delay: 1 } }} className="p-4 rounded-lg border border-indigo-500/40 bg-zinc-900/90 backdrop-blur-sm space-y-3 relative overflow-hidden z-20" style={{ transformStyle: 'preserve-3d', translateZ: '20px' }}>
                     <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded bg-zinc-800 border border-zinc-700" />
-                      <div className="space-y-1">
-                        <div className="h-3 w-28 bg-zinc-800 rounded" />
-                        <div className="h-2 w-20 bg-zinc-800/50 rounded" />
-                      </div>
-                    </div>
-                    <div className="flex gap-2 mt-2">
-                      <div className="h-5 w-12 rounded bg-indigo-500/10 border border-indigo-500/20" />
-                      <div className="h-5 w-12 rounded bg-zinc-800 border border-zinc-700" />
-                    </div>
-                    {/* Shine */}
+                    <div className="flex items-center gap-3"><div className="h-8 w-8 rounded bg-zinc-800 border border-zinc-700" /><div className="space-y-1"><div className="h-3 w-28 bg-zinc-800 rounded" /><div className="h-2 w-20 bg-zinc-800/50 rounded" /></div></div>
+                    <div className="flex gap-2 mt-2"><div className="h-5 w-12 rounded bg-indigo-500/10 border border-indigo-500/20" /><div className="h-5 w-12 rounded bg-zinc-800 border border-zinc-700" /></div>
                     <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/5 to-transparent pointer-events-none" />
                   </motion.div>
                 </div>
 
-                {/* Column 3 */}
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="h-4 w-16 bg-zinc-800 rounded" />
-                    <div className="h-4 w-6 bg-zinc-800 rounded" />
-                  </div>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 1.2 }}
-                    className="p-4 rounded-lg border border-emerald-500/30 bg-emerald-500/5 space-y-3 relative overflow-hidden"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded bg-zinc-800" />
-                      <div className="space-y-1">
-                        <div className="h-3 w-24 bg-zinc-800 rounded" />
-                        <div className="h-2 w-12 bg-zinc-800/50 rounded" />
-                      </div>
-                    </div>
+                  <div className="flex items-center justify-between mb-4"><div className="h-4 w-16 bg-zinc-800 rounded" /><div className="h-4 w-6 bg-zinc-800 rounded" /></div>
+                  <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.2 }} className="p-4 rounded-lg border border-emerald-500/30 bg-emerald-500/5 space-y-3 relative overflow-hidden">
+                    <div className="flex items-center gap-3"><div className="h-8 w-8 rounded bg-zinc-800" /><div className="space-y-1"><div className="h-3 w-24 bg-zinc-800 rounded" /><div className="h-2 w-12 bg-zinc-800/50 rounded" /></div></div>
                     <div className="h-2 w-1/2 bg-emerald-500/20 rounded" />
-
-                    {/* Pulse Effect */}
-                    <motion.div
-                      animate={{ opacity: [0, 0.4, 0] }}
-                      transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 1 }}
-                      className="absolute inset-0 bg-emerald-500/10"
-                    />
+                    <motion.div animate={{ opacity: [0, 0.4, 0] }} transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 1 }} className="absolute inset-0 bg-emerald-500/10" />
                   </motion.div>
                 </div>
               </div>
             </div>
-
-            {/* Fade at bottom of mock UI */}
             <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-zinc-950 to-transparent pointer-events-none" />
           </motion.div>
         </div>
 
 
-        {/* BENTO GRID (Existing Features) */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mt-32 w-full grid grid-cols-1 md:grid-cols-6 lg:grid-rows-2 gap-4 max-w-6xl mx-auto h-[800px] md:h-[500px]"
-        >
-          {/* ... Rest of Bento Grid (Unchanged in logic, just styling match) ... */}
-          {/* CARD 1: Kanban Workflow */}
-          <motion.div
-            whileHover="hover"
-            className="md:col-span-4 row-span-1 rounded-3xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-md p-8 flex flex-col justify-between relative overflow-hidden group hover:border-zinc-700/80 transition-all duration-500 shadow-inner-light text-left"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="z-10 text-left">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-indigo-400">
-                  <Kanban size={20} />
+        {/* REFINED ASYMMETRICAL BENTO GRID */}
+        <section className="w-full max-w-7xl mx-auto px-6 mb-32 relative z-20">
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-5 auto-rows-fr">
+
+            {/* CARD 1: Kanban Workflow (Wide - 4 Cols) */}
+            <motion.div
+              whileHover="hover"
+              initial="initial"
+              className="md:col-span-4 h-[440px] rounded-[32px] border border-zinc-800/60 bg-gradient-to-b from-zinc-900/50 to-zinc-950/80 backdrop-blur-2xl overflow-hidden group shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)] hover:border-zinc-700/80 transition-all duration-500"
+            >
+              <div className="absolute inset-0 bg-noise opacity-[0.03]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+              <div className="flex h-full">
+                {/* Text Content */}
+                <div className="w-2/5 p-10 flex flex-col relative z-10">
+                  <div className="w-12 h-12 rounded-2xl bg-zinc-800/50 border border-zinc-700/50 flex items-center justify-center mb-6 text-indigo-400 group-hover:scale-105 group-hover:bg-indigo-500/10 group-hover:border-indigo-500/20 transition-all duration-300 shadow-inner">
+                    <Kanban size={22} />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-zinc-100 mb-3 tracking-tight">Precision Workflow</h3>
+                  <p className="text-zinc-500 leading-relaxed text-sm">
+                    Visualize your pipeline. Drag and drop with fluid 60fps animations. Never lose context of your applications.
+                  </p>
+                  <div className="mt-auto flex items-center gap-2 text-indigo-400 text-xs font-medium opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                    Try Board View <ArrowRight size={12} />
+                  </div>
                 </div>
-                <h3 className="text-xl font-medium text-zinc-200">Kanban Workflow</h3>
-              </div>
-              <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
-                Visualize your job search pipeline. Drag, drop, and track applications from "Applied" to "Offer" with fluid animations.
-              </p>
-            </div>
-            {/* Visual */}
-            <div className="absolute bottom-0 right-0 w-[400px] h-[200px] mask-gradient-b">
-              <div className="flex gap-4 h-full px-4 items-end transform translate-y-4">
-                <div className="w-1/3 h-[90%] bg-zinc-800/20 rounded-t-xl border-x border-t border-zinc-800/30 p-3 space-y-3">
-                  <div className="h-2 w-16 bg-zinc-800 rounded-full" />
-                  <div className="h-16 w-full rounded-lg bg-zinc-900/50 border border-zinc-800/50" />
-                  <div className="h-16 w-full rounded-lg bg-zinc-900/50 border border-zinc-800/50" />
-                </div>
-                <div className="w-1/3 h-[110%] bg-zinc-800/20 rounded-t-xl border-x border-t border-zinc-800/30 p-3 space-y-3">
-                  <div className="h-2 w-20 bg-zinc-800 rounded-full" />
-                  <div className="h-16 w-full rounded-lg bg-zinc-900/50 border border-zinc-800/50 opacity-50" />
+
+                {/* Visual Animation */}
+                <div className="w-3/5 relative overflow-hidden mask-gradient-l">
                   <motion.div
-                    variants={{ hover: { x: "100%", y: -20, rotate: 3, scale: 1.05, opacity: 0.8 } }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                    className="h-16 w-full rounded-lg bg-indigo-500/10 border border-indigo-500/30 relative flex items-center justify-center"
+                    variants={{
+                      initial: { rotate: 6, x: 40, y: 60 },
+                      hover: { rotate: 0, x: 10, y: 30 }
+                    }}
+                    transition={{ type: "spring", stiffness: 100, damping: 24 }}
+                    className="absolute top-10 right-10 w-[320px] h-[400px] bg-zinc-900 rounded-t-xl border-l border-t border-zinc-700/50 shadow-2xl p-5 flex flex-col gap-4"
                   >
-                    <div className="h-2 w-12 bg-indigo-500/30 rounded-full absolute top-3 left-3" />
+                    <div className="flex items-center justify-between px-2 mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]" />
+                        <span className="text-xs font-medium text-zinc-300">Interview</span>
+                      </div>
+                      <span className="px-1.5 py-0.5 rounded bg-zinc-800 text-[10px] text-zinc-500 font-mono">5</span>
+                    </div>
+
+                    <motion.div
+                      className="p-4 bg-zinc-950 rounded-xl border border-zinc-800 flex gap-4 items-center shadow-lg relative z-20"
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-xs shadow-[0_4px_12px_rgba(79,70,229,0.3)]">
+                        <Layers size={16} />
+                      </div>
+                      <div className="space-y-2 flex-1">
+                        <div className="h-2.5 w-20 bg-zinc-800 rounded-full" />
+                        <div className="h-1.5 w-12 bg-zinc-800/50 rounded-full" />
+                      </div>
+                      <div className="px-2 py-1 rounded bg-indigo-500/10 text-[10px] text-indigo-400 border border-indigo-500/20">Active</div>
+                    </motion.div>
+
+                    <div className="p-4 bg-zinc-800/20 rounded-xl border border-zinc-800/40 flex gap-4 items-center grayscale opacity-60">
+                      <div className="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-500">A</div>
+                      <div className="space-y-2 flex-1">
+                        <div className="h-2.5 w-24 bg-zinc-800 rounded-full" />
+                        <div className="h-1.5 w-16 bg-zinc-800/50 rounded-full" />
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-zinc-800/20 rounded-xl border border-zinc-800/40 flex gap-4 items-center grayscale opacity-40">
+                      <div className="w-9 h-9 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-500">B</div>
+                      <div className="space-y-2 flex-1">
+                        <div className="h-2.5 w-16 bg-zinc-800 rounded-full" />
+                      </div>
+                    </div>
                   </motion.div>
                 </div>
-                <div className="w-1/3 h-[95%] bg-zinc-800/20 rounded-t-xl border-x border-t border-zinc-800/30 p-3 space-y-3">
-                  <div className="h-2 w-12 bg-zinc-800 rounded-full" />
-                  <motion.div
-                    variants={{ hover: { backgroundColor: "rgba(99, 102, 241, 0.1)", borderColor: "rgba(99, 102, 241, 0.3)" } }}
-                    className="h-24 w-full rounded-lg border-2 border-dashed border-zinc-800 transition-colors"
-                  />
-                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* CARD 2: Metrics */}
-          <motion.div
-            whileHover="hover"
-            className="md:col-span-2 md:row-span-2 rounded-3xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-md p-8 flex flex-col relative overflow-hidden group hover:border-zinc-700/80 transition-all duration-500 shadow-inner-light text-left"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-zinc-800/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="z-10 mb-8 text-left">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-emerald-400">
-                  <BarChart3 size={20} />
-                </div>
-                <h3 className="text-xl font-medium text-zinc-200">Metrics</h3>
-              </div>
-              <p className="text-zinc-500 text-sm leading-relaxed">
-                Track your application velocity and interview rates over time.
-              </p>
-            </div>
-            <div className="flex-1 flex items-end justify-between gap-2 px-2 pb-2">
-              {[30, 45, 25, 60, 40, 75, 50].map((height, i) => (
-                <div key={i} className="w-full flex flex-col justify-end gap-2 group-hover:gap-3 transition-all duration-500 h-64">
-                  <motion.div
-                    variants={{ hover: { opacity: 1, y: 0 } }}
-                    initial={{ opacity: 0, y: 10 }}
-                    className="text-[10px] text-zinc-400 text-center"
-                  >
-                    {height * 1.5}
-                  </motion.div>
-                  <motion.div
-                    className={`w-full rounded-t-sm ${i === 5 ? 'bg-indigo-500' : 'bg-zinc-800'}`}
-                    initial={{ height: `${height}%` }}
-                    variants={{ hover: { height: `${height * 1.3}%` } }}
-                    transition={{ duration: 0.4, delay: i * 0.05 }}
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 pt-6 border-t border-zinc-800/50 flex items-center justify-between text-xs text-zinc-500">
-              <span>Weekly Growth</span>
-              <span className="flex items-center gap-1 text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded"><ArrowUpRight size={12} /> +24%</span>
-            </div>
-          </motion.div>
+            {/* CARD 2: Metrics (Narrow - 2 Cols) */}
+            <motion.div
+              whileHover="hover"
+              initial="initial"
+              className="md:col-span-2 h-[440px] rounded-[32px] border border-zinc-800/60 bg-gradient-to-b from-zinc-900/50 to-zinc-950/80 backdrop-blur-2xl overflow-hidden group shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)] hover:border-zinc-700/80 transition-all duration-500 flex flex-col"
+            >
+              <div className="absolute inset-0 bg-noise opacity-[0.03]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-          {/* CARD 3: Keyboard */}
-          <motion.div
-            whileHover="hover"
-            className="md:col-span-4 row-span-1 rounded-3xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-md p-8 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group hover:border-zinc-700/80 transition-all duration-500 shadow-inner-light text-left"
-          >
-            <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="z-10 max-w-sm text-left">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-amber-400">
-                  <Command size={20} />
+              <div className="p-8 pb-4 flex-shrink-0 relative z-10">
+                <div className="w-12 h-12 rounded-2xl bg-zinc-800/50 border border-zinc-700/50 flex items-center justify-center mb-6 text-emerald-400 group-hover:scale-105 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20 transition-all duration-300 shadow-inner">
+                  <BarChart3 size={22} />
                 </div>
-                <h3 className="text-xl font-medium text-zinc-200">Keyboard First</h3>
+                <h3 className="text-2xl font-semibold text-zinc-100 mb-2 tracking-tight">Real-time Insights</h3>
+                <p className="text-zinc-500 leading-relaxed text-sm">
+                  Analyze velocity & optimize strategy.
+                </p>
               </div>
-              <p className="text-zinc-500 text-sm leading-relaxed mb-4">
-                Built for speed. Navigate, search, and manage your pipeline without lifting your hands from the keyboard.
-              </p>
-              <div className="flex items-center gap-2">
-                <kbd className="px-2 py-1 rounded border border-zinc-700 bg-zinc-800/50 text-xs font-mono text-zinc-300 shadow-sm">Cmd</kbd>
-                <span className="text-zinc-600 text-xs">+</span>
-                <kbd className="px-2 py-1 rounded border border-zinc-700 bg-zinc-800/50 text-xs font-mono text-zinc-300 shadow-sm">K</kbd>
-              </div>
-            </div>
-            <div className="relative w-full max-w-sm">
-              <motion.div
-                className="rounded-xl border border-zinc-800 bg-zinc-950 shadow-2xl overflow-hidden"
-                variants={{ hover: { y: -5, boxShadow: "0 20px 40px -10px rgba(0,0,0,0.5)" } }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="flex items-center gap-3 px-4 py-3 border-b border-zinc-800">
-                  <Search size={14} className="text-zinc-500" />
-                  <div className="h-4 w-1 bg-indigo-500 animate-pulse" />
-                  <span className="text-sm text-zinc-400">Search applications...</span>
-                </div>
-                <div className="p-2 space-y-1">
-                  {['Create new application', 'Go to Dashboard', 'Filter by Offer'].map((item, i) => (
+
+              <div className="mt-auto flex-1 w-full relative px-8 pb-8 min-h-[180px]">
+                {/* Scanning Laser Effect */}
+                <motion.div
+                  className="absolute top-0 bottom-8 w-[2px] bg-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.8)] z-30"
+                  animate={{ left: ['0%', '100%'], opacity: [0, 1, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                />
+
+                <div className="absolute inset-x-0 bottom-0 top-0 flex items-end justify-between px-8 pb-8 gap-2">
+                  {[35, 60, 45, 80, 55, 90, 70].map((h, i) => (
                     <motion.div
                       key={i}
-                      variants={{ hover: { backgroundColor: i === 0 ? "rgba(39, 39, 42, 1)" : "transparent", x: i === 0 ? 4 : 0 } }}
-                      className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm ${i === 0 ? 'text-zinc-200' : 'text-zinc-500'}`}
+                      className="w-full bg-zinc-800/30 rounded-t-sm relative group/bar border-t border-x border-zinc-700/30 overflow-hidden"
+                      initial={{ height: "10%" }}
+                      whileInView={{ height: `${h}%` }}
+                      transition={{ delay: i * 0.05, duration: 0.8, type: "spring", bounce: 0 }}
                     >
-                      <div className="flex items-center gap-2">
-                        {i === 0 ? <Zap size={12} className="text-amber-400" /> : <div className="w-3" />}
-                        {item}
-                      </div>
-                      {i === 0 && <span className="text-[10px] text-zinc-600 font-mono">↵</span>}
+                      <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/20 to-transparent opacity-0 group-hover/bar:opacity-100 transition-opacity duration-300" />
+                      <motion.div
+                        className="absolute top-0 inset-x-0 h-[1px] bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)]"
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
                     </motion.div>
                   ))}
                 </div>
-              </motion.div>
-              <div className="absolute -inset-4 bg-indigo-500/20 blur-2xl -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-full" />
-            </div>
-          </motion.div>
-        </motion.div>
+              </div>
+            </motion.div>
+
+            {/* CARD 3: Keyboard First (Half - 3 Cols) */}
+            <motion.div
+              whileHover="hover"
+              initial="initial"
+              className="md:col-span-3 h-[380px] rounded-[32px] border border-zinc-800/60 bg-gradient-to-b from-zinc-900/50 to-zinc-950/80 backdrop-blur-2xl overflow-hidden group shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)] hover:border-zinc-700/80 transition-all duration-500"
+            >
+              <div className="absolute inset-0 bg-noise opacity-[0.03]" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+              <div className="flex flex-col h-full items-center text-center p-8">
+                <div className="relative z-10 mb-8">
+                  <div className="w-12 h-12 rounded-2xl bg-zinc-800/50 border border-zinc-700/50 flex items-center justify-center mx-auto mb-4 text-amber-400 group-hover:scale-105 group-hover:bg-amber-500/10 group-hover:border-amber-500/20 transition-all duration-300 shadow-inner">
+                    <Command size={22} />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-zinc-100 mb-2 tracking-tight">Keyboard First</h3>
+                  <p className="text-zinc-500 leading-relaxed text-sm max-w-xs mx-auto">
+                    Navigate, search, and manage without touching your mouse.
+                  </p>
+                </div>
+
+                {/* Interactive Command Palette Visual */}
+                <div className="relative w-full max-w-sm mx-auto">
+                  <motion.div
+                    variants={{
+                      initial: { y: 20, scale: 0.95, opacity: 0.8 },
+                      hover: { y: 0, scale: 1, opacity: 1 }
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="bg-zinc-950/90 rounded-xl border border-zinc-700/50 shadow-2xl overflow-hidden ring-1 ring-white/5 text-left"
+                  >
+                    <div className="p-3 border-b border-zinc-800 flex items-center gap-3 bg-zinc-900/50">
+                      <Search size={14} className="text-zinc-500" />
+                      <Typewriter text="Create new issue..." />
+                    </div>
+                    <div className="p-1.5 space-y-0.5">
+                      <motion.div
+                        className="flex items-center justify-between px-3 py-2 rounded-lg bg-amber-500/10 text-amber-200 border border-amber-500/20"
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <div className="flex items-center gap-2 text-xs font-medium">
+                          <Sparkles size={12} />
+                          Create Issue
+                        </div>
+                        <span className="opacity-70 font-sans text-[10px] border border-amber-500/30 px-1 rounded">↵</span>
+                      </motion.div>
+                      <div className="flex items-center gap-2 px-3 py-2 text-zinc-600 text-xs">
+                        <div className="w-3" />
+                        Search Jobs
+                      </div>
+                    </div>
+                  </motion.div>
+                  {/* Shortcuts Hints */}
+                  <div className="flex justify-center gap-3 mt-6">
+                    <kbd className="px-2 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-500">⌘ K</kbd>
+                    <kbd className="px-2 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-500">/</kbd>
+                    <kbd className="px-2 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-500">Esc</kbd>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* CARD 4: Fluid Interactions (Half - 3 Cols) */}
+            <motion.div
+              whileHover="hover"
+              initial="initial"
+              className="md:col-span-3 h-[380px] rounded-[32px] border border-zinc-800/60 bg-gradient-to-b from-zinc-900/50 to-zinc-950/80 backdrop-blur-2xl overflow-hidden group shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)] hover:border-zinc-700/80 transition-all duration-500"
+            >
+              <div className="absolute inset-0 bg-noise opacity-[0.03]" />
+              <div className="absolute inset-0 bg-gradient-to-tl from-pink-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+              <div className="flex flex-col h-full items-center text-center p-8">
+                <div className="relative z-10 mb-8">
+                  <div className="w-12 h-12 rounded-2xl bg-zinc-800/50 border border-zinc-700/50 flex items-center justify-center mx-auto mb-4 text-pink-400 group-hover:scale-105 group-hover:bg-pink-500/10 group-hover:border-pink-500/20 transition-all duration-300 shadow-inner">
+                    <Fingerprint size={22} />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-zinc-100 mb-2 tracking-tight">Fluid Interactions</h3>
+                  <p className="text-zinc-500 leading-relaxed text-sm max-w-xs mx-auto">
+                    Satisfying physics-based animations that feel natural and responsive.
+                  </p>
+                </div>
+
+                {/* Draggable List Simulation */}
+                <div className="relative w-full max-w-sm mx-auto space-y-3">
+                  <motion.div
+                    className="h-14 w-full rounded-xl bg-zinc-900 border border-zinc-800 p-3 flex items-center gap-4 relative z-20 shadow-xl cursor-grab"
+                    animate={{
+                      y: [0, 68, 68, 0],
+                      scale: [1, 1.02, 1.02, 1],
+                      borderColor: ["#27272a", "#ec4899", "#ec4899", "#27272a"],
+                      boxShadow: ["0 0 0 rgba(0,0,0,0)", "0 10px 20px -5px rgba(236,72,153,0.15)", "0 10px 20px -5px rgba(236,72,153,0.15)", "0 0 0 rgba(0,0,0,0)"]
+                    }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
+                  >
+                    <div className="text-zinc-600"><GripVertical size={18} /></div>
+                    <div className="h-8 w-8 rounded-lg bg-pink-500/10 text-pink-500 flex items-center justify-center font-bold text-[10px] border border-pink-500/20">1</div>
+                    <div className="flex-1 space-y-1.5">
+                      <div className="h-2 w-24 bg-zinc-800 rounded-full" />
+                      <div className="h-1.5 w-16 bg-zinc-800/50 rounded-full" />
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    className="h-14 w-full rounded-xl bg-zinc-900/50 border border-zinc-800/50 p-3 flex items-center gap-4 relative z-10"
+                    animate={{ y: [0, -68, -68, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
+                  >
+                    <div className="text-zinc-700"><GripVertical size={18} /></div>
+                    <div className="h-8 w-8 rounded-lg bg-zinc-800 text-zinc-500 flex items-center justify-center font-bold text-[10px]">2</div>
+                    <div className="flex-1 space-y-1.5">
+                      <div className="h-2 w-32 bg-zinc-800/80 rounded-full" />
+                      <div className="h-1.5 w-20 bg-zinc-800/40 rounded-full" />
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+
+          </div>
+        </section>
 
         {/* Features List */}
-        <div className="mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 text-left w-full max-w-5xl mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-left w-full max-w-5xl mb-20 relative z-20">
           {[
             { title: 'Privacy Focused', desc: 'Your data stays local. No tracking, no sharing.' },
             { title: 'Instant Search', desc: 'Find any application in milliseconds.' },
@@ -497,4 +477,36 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+};
+
+// Helper component for typewriter effect
+const Typewriter = ({ text }: { text: string }) => {
+  const [displayText, setDisplayText] = useState('');
+
+  useEffect(() => {
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i < text.length) {
+        setDisplayText(prev => prev + text.charAt(i));
+        i++;
+      } else {
+        clearInterval(timer);
+        setTimeout(() => {
+          setDisplayText('');
+          i = 0; // Reset conceptually, but interval needs restart in a real loop
+        }, 2000);
+      }
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, [text]);
+
+  return (
+    <span className="text-zinc-500 text-xs font-medium flex items-center">
+      {displayText}
+      <span className="w-0.5 h-3 bg-indigo-500 ml-0.5 animate-pulse" />
+    </span>
+  );
+};
+
+export default LandingPage;
