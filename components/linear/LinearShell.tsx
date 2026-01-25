@@ -27,6 +27,27 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
     const dispatch = useAppDispatch();
     const { currentView, searchQuery, toasts } = useAppSelector(state => state.ui);
     const { data: session } = useSession();
+
+    // Internal state for debounce
+    const [localSearch, setLocalSearch] = React.useState(searchQuery);
+
+    // Debounce effect
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            if (localSearch !== searchQuery) {
+                dispatch(setSearchQuery(localSearch));
+            }
+        }, 300); // 300ms debounce
+        return () => clearTimeout(timer);
+    }, [localSearch, dispatch, searchQuery]);
+
+    // Sync if searchQuery changes externally (e.g. cleared)
+    React.useEffect(() => {
+        if (searchQuery !== localSearch) {
+            setLocalSearch(searchQuery);
+        }
+    }, [searchQuery]);
+
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [isMac, setIsMac] = React.useState(false);
 
@@ -133,8 +154,8 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
                             <input
                                 ref={inputRef}
                                 type="text"
-                                value={searchQuery}
-                                onChange={(e) => dispatch(setSearchQuery(e.target.value))}
+                                value={localSearch}
+                                onChange={(e) => setLocalSearch(e.target.value)}
                                 placeholder="Search applications..."
                                 className="bg-transparent border-none outline-none w-full text-zinc-200 placeholder:text-zinc-600 ml-2 h-full"
                             />
