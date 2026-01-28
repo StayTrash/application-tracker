@@ -29,8 +29,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onLogin, onGuestLogin }) => {
                 transition={{ delay: 0.2 }}
                 className="text-lg md:text-xl text-zinc-400 max-w-2xl mb-10 leading-relaxed font-light"
             >
-                The issue tracking aesthetic, applied to your career. <br className="hidden md:block" />
-                Manage applications, track interviews, and analyze offers.
+                Every application tracked. Every interview prepared. <br className="hidden md:block" />
+                Every offer compared.
             </motion.p>
 
             {/* CTA Buttons */}
