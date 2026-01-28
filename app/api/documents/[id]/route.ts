@@ -8,7 +8,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     try {
         const session = await getServerSession(authOptions);
         if (!session || !session.user || !session.user.email) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+            return NextResponse.json({ error: 'Unauthorized user' }, { status: 401 });
         }
         const { id } = await params;
         const body = await req.json();
