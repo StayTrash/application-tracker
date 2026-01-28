@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
     LayoutGrid,
     Kanban,
@@ -8,24 +10,53 @@ import {
     Bell,
     Command,
     Briefcase,
-    Layers,
-    FileText
+    FileText,
+    LogOut
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ToastContainer } from './Toast';
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
-import { setCurrentView, setSearchQuery, removeToast } from '@/lib/store/features/ui/uiSlice';
+import { setSearchQuery, removeToast } from '@/lib/store/features/ui/uiSlice';
 import { useSession, signOut } from 'next-auth/react';
-import { LogOut } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 interface LinearShellProps {
     children: React.ReactNode;
 }
 
+// Route configuration
+const ROUTES = {
+    dashboard: '/dashboard',
+    kanban: '/dashboard/kanban',
+    list: '/dashboard/list',
+    documents: '/dashboard/documents',
+} as const;
+
+// Helper to get current view from pathname
+const get_view_from_pathname = (pathname: string): string => {
+    if (pathname === '/dashboard') return 'dashboard';
+    if (pathname.startsWith('/dashboard/kanban')) return 'kanban';
+    if (pathname.startsWith('/dashboard/list')) return 'list';
+    if (pathname.startsWith('/dashboard/documents')) return 'documents';
+    return 'dashboard';
+};
+
+// Helper to get display name for breadcrumb
+const get_view_display_name = (view: string): string => {
+    switch (view) {
+        case 'dashboard': return 'Dashboard';
+        case 'kanban': return 'Board';
+        case 'list': return 'Applications';
+        case 'documents': return 'Documents';
+        default: return 'Dashboard';
+    }
+};
+
 const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
     const dispatch = useAppDispatch();
-    const { currentView, searchQuery, toasts } = useAppSelector(state => state.ui);
+    const pathname = usePathname();
+    const currentView = get_view_from_pathname(pathname);
+    const { searchQuery, toasts } = useAppSelector(state => state.ui);
     const { data: session } = useSession();
 
     // Internal state for debounce
@@ -79,29 +110,29 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
 
                 {/* Navigation */}
                 <nav className="flex-1 flex flex-col gap-4 w-full px-2">
-                    <NavIcon
+                    <NavLink
+                        href={ROUTES.dashboard}
                         icon={<LayoutGrid size={20} />}
                         label="Dashboard"
                         isActive={currentView === 'dashboard'}
-                        onClick={() => dispatch(setCurrentView('dashboard'))}
                     />
-                    <NavIcon
+                    <NavLink
+                        href={ROUTES.kanban}
                         icon={<Kanban size={20} />}
                         label="Board"
                         isActive={currentView === 'kanban'}
-                        onClick={() => dispatch(setCurrentView('kanban'))}
                     />
-                    <NavIcon
+                    <NavLink
+                        href={ROUTES.list}
                         icon={<Briefcase size={20} />}
                         label="Jobs"
                         isActive={currentView === 'list'}
-                        onClick={() => dispatch(setCurrentView('list'))}
                     />
-                    <NavIcon
+                    <NavLink
+                        href={ROUTES.documents}
                         icon={<FileText size={20} />}
                         label="Documents"
                         isActive={currentView === 'documents'}
-                        onClick={() => dispatch(setCurrentView('documents'))}
                     />
                 </nav>
 
@@ -141,9 +172,9 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
                 <header className="h-14 border-b border-zinc-800/50 flex items-center justify-between px-6 bg-zinc-950/50 backdrop-blur-sm z-40">
                     {/* Breadcrumbs / Title */}
                     <div className="flex items-center gap-2 text-sm text-zinc-500">
-                        <span className="hover:text-zinc-300 cursor-pointer transition-colors">Workspace</span>
+                        <Link href="/dashboard" className="hover:text-zinc-300 transition-colors">Workspace</Link>
                         <span className="text-zinc-700">/</span>
-                        <span className="text-zinc-200 font-medium capitalize">{currentView === 'list' ? 'Applications' : currentView}</span>
+                        <span className="text-zinc-200 font-medium">{get_view_display_name(currentView)}</span>
                     </div>
 
                     {/* Search & Actions */}
@@ -183,14 +214,14 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
     );
 };
 
-// Sub-component for Sidebar Icons
-const NavIcon: React.FC<{ icon: React.ReactNode, label: string, isActive: boolean, onClick: () => void }> = ({ icon, label, isActive, onClick }) => (
-    <button
-        onClick={onClick}
+// Sub-component for Sidebar Navigation Links
+const NavLink: React.FC<{ href: string; icon: React.ReactNode; label: string; isActive: boolean }> = ({ href, icon, label, isActive }) => (
+    <Link
+        href={href}
         className={`
-        relative group w-full aspect-square flex items-center justify-center rounded-xl transition-all duration-300
-        ${isActive ? 'text-indigo-400 bg-indigo-500/10' : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900'}
-      `}
+            relative group w-full aspect-square flex items-center justify-center rounded-xl transition-all duration-300
+            ${isActive ? 'text-indigo-400 bg-indigo-500/10' : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900'}
+        `}
         title={label}
     >
         {icon}
@@ -200,7 +231,7 @@ const NavIcon: React.FC<{ icon: React.ReactNode, label: string, isActive: boolea
                 className="absolute left-0 top-2 bottom-2 w-0.5 rounded-r-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]"
             />
         )}
-    </button>
+    </Link>
 );
 
 export default LinearShell;

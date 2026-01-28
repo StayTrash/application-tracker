@@ -2,13 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Toast, ToastType } from '@/types';
 
 interface UiState {
-    currentView: 'dashboard' | 'kanban' | 'list' | 'documents';
     searchQuery: string;
     toasts: Toast[];
 }
 
 const initialState: UiState = {
-    currentView: 'dashboard',
     searchQuery: '',
     toasts: []
 };
@@ -17,9 +15,6 @@ const uiSlice = createSlice({
     name: 'ui',
     initialState,
     reducers: {
-        setCurrentView: (state, action: PayloadAction<'dashboard' | 'kanban' | 'list' | 'documents'>) => {
-            state.currentView = action.payload;
-        },
         setSearchQuery: (state, action: PayloadAction<string>) => {
             state.searchQuery = action.payload;
         },
@@ -37,5 +32,5 @@ const uiSlice = createSlice({
     }
 });
 
-export const { setCurrentView, setSearchQuery, addToast, removeToast } = uiSlice.actions;
+export const { setSearchQuery, addToast, removeToast } = uiSlice.actions;
 export default uiSlice.reducer;
