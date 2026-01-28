@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import Dashboard from '@/components/linear/Dashboard';
-import { DashboardSkeleton } from '@/components/linear/Skeleton';
+import { DashboardView } from '@/components/dashboard';
+import { DashboardSkeleton } from '@/components/skeletons';
 import { useDashboard } from '@/lib/context/DashboardContext';
 
 export default function DashboardPage() {
@@ -15,7 +15,7 @@ export default function DashboardPage() {
     }
 
     return (
-        <Dashboard
+        <DashboardView
             jobs={filteredJobs}
             onAddJob={openAddModal}
         />

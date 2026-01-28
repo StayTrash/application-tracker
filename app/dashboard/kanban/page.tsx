@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import KanbanBoard from '@/components/linear/KanbanBoard';
-import { KanbanBoardSkeleton } from '@/components/linear/Skeleton';
+import { KanbanBoard } from '@/components/jobs';
+import { KanbanSkeleton } from '@/components/skeletons';
 import { useDashboard } from '@/lib/context/DashboardContext';
 
 export default function KanbanPage() {
@@ -12,14 +12,14 @@ export default function KanbanPage() {
         jobs, 
         openAddModal, 
         openEditModal, 
-        handleStatusChange, 
-        handleDeleteJob 
+        handleDeleteJob, 
+        handleStatusChange 
     } = useDashboard();
 
     const isInitialLoading = loading && jobs.length === 0;
 
     if (isInitialLoading) {
-        return <KanbanBoardSkeleton />;
+        return <KanbanSkeleton />;
     }
 
     return (

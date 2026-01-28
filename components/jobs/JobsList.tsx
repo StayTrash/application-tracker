@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { Job } from '@/types';
 import { STATUS_COLORS } from '@/constants';
-import { ArrowUpDown, Filter, Download, Plus, Pencil, Trash2, Calendar as CalendarIcon, X } from 'lucide-react';
+import { ArrowUpDown, Filter, Download, Plus, Pencil, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';

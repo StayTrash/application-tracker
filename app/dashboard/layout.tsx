@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import LinearShell from '@/components/linear/LinearShell';
-import NewJobModal from '@/components/linear/NewJobModal';
+import { Shell } from '@/components/layout';
+import { JobModal } from '@/components/jobs';
 import { DashboardProvider, useDashboard } from '@/lib/context/DashboardContext';
 
 // Inner layout that uses the dashboard context
@@ -10,15 +10,15 @@ const DashboardLayoutInner: React.FC<{ children: React.ReactNode }> = ({ childre
     const { isModalOpen, editingJob, closeModal, handleSaveJob } = useDashboard();
 
     return (
-        <LinearShell>
+        <Shell>
             {children}
-            <NewJobModal
+            <JobModal
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 onSave={handleSaveJob}
                 initialData={editingJob}
             />
-        </LinearShell>
+        </Shell>
     );
 };
 

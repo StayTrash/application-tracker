@@ -72,18 +72,83 @@ A premium, issue-tracking style job application tracker built with Next.js 15, M
 ## 📂 Project Structure
 
 ```
-├── app/                  # Next.js App Directory (Routes)
-│   ├── api/              # API Routes (Auth, Applications)
-│   ├── dashboard/        # Dashboard Page & Logic
-│   ├── layout.tsx        # Root Layout
-│   └── page.tsx          # Landing Page
-├── components/           # React Components
-│   ├── linear/           # Specific Logic (Kanban, Dashboard, JobCard)
-│   ├── ui/               # Reusable UI (Buttons, Inputs, Calendar)
-│   └── providers/        # Context Providers (Session)
-├── lib/                  # Utilities (DB Connection)
-├── models/               # Mongoose Models (User, JobApplication)
-└── public/               # Static Assets
+├── app/                      # Next.js App Directory (Routes)
+│   ├── api/                  # API Routes
+│   │   ├── applications/     # Job applications CRUD
+│   │   ├── auth/             # NextAuth.js authentication
+│   │   └── documents/        # Documents CRUD
+│   ├── dashboard/            # Dashboard pages
+│   │   ├── documents/        # Documents view
+│   │   ├── kanban/           # Kanban board view
+│   │   ├── list/             # List view
+│   │   ├── layout.tsx        # Dashboard layout with shell
+│   │   └── page.tsx          # Dashboard overview
+│   ├── layout.tsx            # Root layout
+│   └── page.tsx              # Landing page
+│
+├── components/               # React Components (organized by feature)
+│   ├── dashboard/            # Dashboard-specific components
+│   │   └── DashboardView.tsx # Main dashboard with charts
+│   ├── documents/            # Document management
+│   │   └── DocumentsView.tsx # Document editor
+│   ├── jobs/                 # Job-related components
+│   │   ├── JobCard.tsx       # Individual job card
+│   │   ├── JobModal.tsx      # Add/edit job modal
+│   │   ├── JobsList.tsx      # Table list view
+│   │   └── KanbanBoard.tsx   # Drag-and-drop board
+│   ├── landing/              # Landing page components
+│   │   ├── animations/       # Animated counters & effects
+│   │   ├── FeaturesGrid.tsx  # Bento grid features
+│   │   ├── Footer.tsx        # Site footer
+│   │   ├── HeroSection.tsx   # Hero with CTAs
+│   │   ├── LandingPage.tsx   # Main landing composition
+│   │   ├── Navbar.tsx        # Navigation bar
+│   │   └── PreviewSection.tsx# 3D app preview
+│   ├── layout/               # Layout components
+│   │   └── Shell.tsx         # Dashboard shell with sidebar
+│   ├── providers/            # Context providers
+│   │   └── SessionProvider.tsx
+│   ├── skeletons/            # Loading skeletons
+│   │   ├── DashboardSkeleton.tsx
+│   │   ├── KanbanSkeleton.tsx
+│   │   ├── ListSkeleton.tsx
+│   │   └── Skeleton.tsx      # Base skeleton component
+│   └── ui/                   # Shared UI components
+│       ├── calendar.tsx      # Date picker
+│       ├── popover.tsx       # Popover component
+│       └── Toast.tsx         # Toast notifications
+│
+├── constants/                # App constants
+│   └── index.ts              # Columns, status colors
+│
+├── lib/                      # Utilities & state
+│   ├── context/              # React contexts
+│   │   └── DashboardContext.tsx
+│   ├── hooks/                # Custom hooks
+│   │   └── useDebounce.ts
+│   ├── store/                # Redux store
+│   │   ├── features/         # Feature slices
+│   │   │   ├── documents/
+│   │   │   ├── jobs/
+│   │   │   └── ui/
+│   │   ├── hooks.ts          # Typed hooks
+│   │   ├── store.ts          # Store configuration
+│   │   └── StoreProvider.tsx
+│   ├── db.ts                 # MongoDB connection
+│   └── utils.ts              # Utility functions
+│
+├── models/                   # Mongoose models
+│   ├── Document.ts
+│   ├── JobApplication.ts
+│   └── User.ts
+│
+├── types/                    # TypeScript types
+│   ├── document.ts           # Document types
+│   ├── job.ts                # Job & status types
+│   ├── ui.ts                 # Toast & UI types
+│   └── index.ts              # Re-exports all types
+│
+└── public/                   # Static assets
 ```
 
 ## 🔒 Deployment

@@ -14,13 +14,13 @@ import {
     LogOut
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { ToastContainer } from './Toast';
+import { Toast } from '@/components/ui/Toast';
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import { setSearchQuery, removeToast } from '@/lib/store/features/ui/uiSlice';
 import { useSession, signOut } from 'next-auth/react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-interface LinearShellProps {
+interface ShellProps {
     children: React.ReactNode;
 }
 
@@ -52,27 +52,24 @@ const get_view_display_name = (view: string): string => {
     }
 };
 
-const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
+const Shell: React.FC<ShellProps> = ({ children }) => {
     const dispatch = useAppDispatch();
     const pathname = usePathname();
     const currentView = get_view_from_pathname(pathname);
     const { searchQuery, toasts } = useAppSelector(state => state.ui);
     const { data: session } = useSession();
 
-    // Internal state for debounce
     const [localSearch, setLocalSearch] = React.useState(searchQuery);
 
-    // Debounce effect
     React.useEffect(() => {
         const timer = setTimeout(() => {
             if (localSearch !== searchQuery) {
                 dispatch(setSearchQuery(localSearch));
             }
-        }, 300); // 300ms debounce
+        }, 300);
         return () => clearTimeout(timer);
     }, [localSearch, dispatch, searchQuery]);
 
-    // Sync if searchQuery changes externally (e.g. cleared)
     React.useEffect(() => {
         if (searchQuery !== localSearch) {
             setLocalSearch(searchQuery);
@@ -138,7 +135,6 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
 
                 {/* Footer Actions */}
                 <div className="mt-auto flex flex-col gap-4 w-full px-2">
-
                     <Popover>
                         <PopoverTrigger asChild>
                             <button className="h-8 w-8 rounded-full bg-zinc-800 border border-zinc-700 mx-auto overflow-hidden transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 cursor-pointer">
@@ -209,7 +205,7 @@ const LinearShell: React.FC<LinearShellProps> = ({ children }) => {
             </main>
 
             {/* Global Toast Container */}
-            <ToastContainer toasts={toasts} removeToast={(id) => dispatch(removeToast(id))} />
+            <Toast toasts={toasts} removeToast={(id) => dispatch(removeToast(id))} />
         </div>
     );
 };
@@ -234,4 +230,4 @@ const NavLink: React.FC<{ href: string; icon: React.ReactNode; label: string; is
     </Link>
 );
 
-export default LinearShell;
+export default Shell;

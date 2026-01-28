@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { X, Calendar as CalendarIcon, ClipboardPaste, Copy, Check } from 'lucide-react';
+import { X, Calendar as CalendarIcon, ClipboardPaste, Copy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Status, Job } from '@/types';
 import { Calendar } from '@/components/ui/calendar';
@@ -9,14 +9,14 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 
-interface NewJobModalProps {
+interface JobModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSave: (job: Omit<Job, 'id' | 'logo' | 'tags'> & { tags: string }) => void;
     initialData?: Job | null;
 }
 
-const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
+const JobModal: React.FC<JobModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
     const [formData, setFormData] = useState({
         company: '',
         role: '',
@@ -28,7 +28,6 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
         link: ''
     });
 
-    // Effect to populate form when editing or reset when adding
     useEffect(() => {
         if (isOpen) {
             if (initialData) {
@@ -61,7 +60,7 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
         e.preventDefault();
         onSave({
             ...formData,
-            dateAdded: formData.dateAdded.toISOString() // Convert back to string for API
+            dateAdded: formData.dateAdded.toISOString()
         });
     };
 
@@ -78,13 +77,13 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
                         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
                     />
 
-                    {/* Modal Content - Centered via Flexbox parent */}
+                    {/* Modal Content */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className="relative w-full max-w-lg bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl overflow-visible" // overflow-visible for Popover
-                        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+                        className="relative w-full max-w-lg bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl overflow-visible"
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800/50">
                             <h2 className="text-lg font-medium text-zinc-100">
@@ -96,7 +95,6 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
                         </div>
 
                         <form onSubmit={handleSubmit} className="p-6 space-y-5">
-
                             <div className="grid grid-cols-2 gap-5">
                                 <div className="space-y-1.5">
                                     <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">Company</label>
@@ -190,7 +188,7 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
                                             <div className="flex items-center justify-between p-3 border-t border-zinc-800/50 bg-zinc-900/30">
                                                 <button
                                                     type="button"
-                                                    onClick={() => setFormData({ ...formData, dateAdded: undefined as any })} // Handle clear
+                                                    onClick={() => setFormData({ ...formData, dateAdded: undefined as any })}
                                                     className="px-3 py-1.5 rounded-full text-[10px] font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors"
                                                 >
                                                     Clear
@@ -235,7 +233,6 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
                                                 type="button"
                                                 onClick={() => {
                                                     navigator.clipboard.writeText(formData.link);
-                                                    // Optional: could add a toast here, but for now simple copy
                                                 }}
                                                 className="p-1.5 rounded-md text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800 transition-colors"
                                                 title="Copy Link"
@@ -285,4 +282,4 @@ const NewJobModal: React.FC<NewJobModalProps> = ({ isOpen, onClose, onSave, init
     );
 };
 
-export default NewJobModal;
+export default JobModal;

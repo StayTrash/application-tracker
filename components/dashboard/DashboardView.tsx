@@ -3,30 +3,29 @@
 import React, { useMemo, useState } from 'react';
 import {
     AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer,
-    PieChart, Pie, Cell, BarChart, Bar, Legend
+    PieChart, Pie, Cell, BarChart, Bar
 } from 'recharts';
 import { ArrowUpRight, TrendingUp, MoreHorizontal, Sparkles, List, Filter, ArrowUpDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Job } from '@/types';
 import { STATUS_COLORS } from '@/constants';
 
-interface DashboardProps {
+interface DashboardViewProps {
     jobs: Job[];
     onAddJob: () => void;
 }
 
 const COLORS = {
-    Applied: '#71717a',   // zinc-500
-    Screening: '#3b82f6', // blue-500
-    Interview: '#8b5cf6', // violet-500
-    Offer: '#10b981',     // emerald-500
-    Rejected: '#ef4444',  // red-500
+    Applied: '#71717a',
+    Screening: '#3b82f6',
+    Interview: '#8b5cf6',
+    Offer: '#10b981',
+    Rejected: '#ef4444',
 };
 
-const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
+const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
     const [sortConfig, setSortConfig] = useState<{ key: keyof Job; direction: 'asc' | 'desc' } | null>(null);
 
-    // Calculate dynamic metrics
     const metrics = useMemo(() => {
         const total = jobs.length;
         const interviews = jobs.filter(j => j.status === 'Interview').length;
@@ -39,7 +38,6 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
         ];
     }, [jobs]);
 
-    // Chart Data: Velocity (Area)
     const velocityData = useMemo(() => {
         const groups: Record<string, number> = {};
         const sortedJobs = [...jobs].sort((a, b) => new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime());
@@ -55,7 +53,6 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
         return Object.keys(groups).map(key => ({ name: key, applications: groups[key] }));
     }, [jobs]);
 
-    // Chart Data: Status Distribution (Pie)
     const statusData = useMemo(() => {
         const counts: Record<string, number> = {};
         jobs.forEach(job => {
@@ -64,7 +61,6 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
         return Object.keys(counts).map(status => ({ name: status, value: counts[status] }));
     }, [jobs]);
 
-    // Chart Data: Funnel (Bar) - Focusing on active pipeline stages
     const funnelData = useMemo(() => {
         const stages = ['Applied', 'Screening', 'Interview', 'Offer'];
         return stages.map(stage => ({
@@ -73,7 +69,6 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
         }));
     }, [jobs]);
 
-    // Table Sorting Logic
     const sortedJobs = useMemo(() => {
         let sortableJobs = [...jobs];
         if (sortConfig !== null) {
@@ -336,4 +331,4 @@ const Dashboard: React.FC<DashboardProps> = ({ jobs, onAddJob }) => {
     );
 };
 
-export default Dashboard;
+export default DashboardView;

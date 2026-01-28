@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import JobsList from '@/components/linear/JobsList';
-import { JobsListSkeleton } from '@/components/linear/Skeleton';
+import { JobsList } from '@/components/jobs';
+import { ListSkeleton } from '@/components/skeletons';
 import { useDashboard } from '@/lib/context/DashboardContext';
 
 export default function ListPage() {
@@ -18,7 +18,7 @@ export default function ListPage() {
     const isInitialLoading = loading && jobs.length === 0;
 
     if (isInitialLoading) {
-        return <JobsListSkeleton />;
+        return <ListSkeleton />;
     }
 
     return (

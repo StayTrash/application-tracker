@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import { fetchDocuments, addDocument, updateDocument, deleteDocument } from '@/lib/store/features/documents/documentsSlice';
 import { addToast } from '@/lib/store/features/ui/uiSlice';
 import { Document, DocumentType } from '@/types';
-import { Plus, FileText, StickyNote, BookOpen, Trash2, Save, MoreHorizontal, Copy } from 'lucide-react';
+import { Plus, FileText, StickyNote, BookOpen, Trash2, Save, Copy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const DocumentsView = () => {
@@ -13,11 +13,9 @@ const DocumentsView = () => {
     const { documents } = useAppSelector(state => state.documents);
     const [selectedDocId, setSelectedDocId] = useState<string | null>(documents.length > 0 ? documents[0].id : null);
 
-    // Local draft state
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
-    // Filter docs if needed, for MVP show all sorted by date
     const sortedDocs = [...documents].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     const selectedDoc = documents.find(d => d.id === selectedDocId) || null;
@@ -26,14 +24,12 @@ const DocumentsView = () => {
         dispatch(fetchDocuments());
     }, [dispatch]);
 
-    // Set initial selection
     useEffect(() => {
         if (!selectedDocId && documents.length > 0) {
             setSelectedDocId(documents[0].id);
         }
     }, [documents, selectedDocId]);
 
-    // Sync draft state when selection changes
     useEffect(() => {
         if (selectedDoc) {
             setTitle(selectedDoc.title);

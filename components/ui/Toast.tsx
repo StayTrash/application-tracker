@@ -3,14 +3,14 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, AlertCircle, Info, X } from 'lucide-react';
-import { Toast } from '@/types';
+import { Toast as ToastType } from '@/types';
 
 interface ToastContainerProps {
-    toasts: Toast[];
+    toasts: ToastType[];
     removeToast: (id: string) => void;
 }
 
-const ToastItem: React.FC<{ toast: Toast; removeToast: (id: string) => void }> = ({ toast, removeToast }) => {
+const ToastItem: React.FC<{ toast: ToastType; removeToast: (id: string) => void }> = ({ toast, removeToast }) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             removeToast(toast.id);
@@ -37,11 +37,11 @@ const ToastItem: React.FC<{ toast: Toast; removeToast: (id: string) => void }> =
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
             className={`
-        relative flex items-center gap-3 w-80 p-3 rounded-lg 
-        bg-zinc-900/90 backdrop-blur-md border shadow-xl shadow-black/50
-        ${borders[toast.type]}
-        transition-colors cursor-pointer group
-      `}
+                relative flex items-center gap-3 w-80 p-3 rounded-lg 
+                bg-zinc-900/90 backdrop-blur-md border shadow-xl shadow-black/50
+                ${borders[toast.type]}
+                transition-colors cursor-pointer group
+            `}
             onClick={() => removeToast(toast.id)}
         >
             <div className="shrink-0">{icons[toast.type]}</div>
@@ -53,7 +53,7 @@ const ToastItem: React.FC<{ toast: Toast; removeToast: (id: string) => void }> =
     );
 };
 
-export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, removeToast }) => {
+export const Toast: React.FC<ToastContainerProps> = ({ toasts, removeToast }) => {
     return (
         <div className="fixed bottom-6 right-6 z-[200] flex flex-col items-end gap-2 pointer-events-none">
             <AnimatePresence mode="popLayout">
@@ -66,3 +66,5 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, removeTo
         </div>
     );
 };
+
+export default Toast;
