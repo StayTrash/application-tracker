@@ -97,6 +97,3 @@ Easily deploy to **Vercel**:
 
 **Note:** Ensure your Google Cloud Console "Authorized JavaScript origins" and "Redirect URIs" include your Vercel deployment domain.
 
-## 📄 License
-
-MIT License. Free to use for personal and commercial projects.
