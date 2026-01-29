@@ -11,7 +11,7 @@ interface SkeletonProps {
 export const Skeleton: React.FC<SkeletonProps> = ({ className, shimmer = true }) => (
     <div
         className={cn(
-            "rounded-md bg-zinc-800/50",
+            "rounded-md bg-slate-200",
             shimmer ? "skeleton-shimmer" : "animate-pulse",
             className
         )}

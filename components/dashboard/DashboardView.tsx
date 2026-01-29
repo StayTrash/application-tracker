@@ -32,9 +32,9 @@ const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
         const offers = jobs.filter(j => j.status === 'Offer').length;
 
         return [
-            { label: 'Total Applications', value: total, trend: 12, color: 'text-zinc-200' },
-            { label: 'Interviews Scheduled', value: interviews, trend: 5, color: 'text-indigo-400' },
-            { label: 'Offers Received', value: offers, trend: 100, color: 'text-emerald-400' },
+            { label: 'Total Applications', value: total, trend: 12, color: 'text-slate-800' },
+            { label: 'Interviews Scheduled', value: interviews, trend: 5, color: 'text-indigo-600' },
+            { label: 'Offers Received', value: offers, trend: 100, color: 'text-emerald-600' },
         ];
     }, [jobs]);
 
@@ -96,20 +96,20 @@ const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
     };
 
     return (
-        <div className="p-8 h-full overflow-y-auto custom-scrollbar">
+        <div className="p-8 h-full overflow-y-auto custom-scrollbar bg-slate-50">
             <div className="max-w-7xl mx-auto space-y-6">
 
                 {/* Header */}
                 <div className="flex items-end justify-between mb-2">
                     <div>
-                        <h1 className="text-2xl font-semibold text-zinc-100 tracking-tight">Overview</h1>
-                        <p className="text-zinc-500 text-sm mt-1">
-                            Your pipeline is active. <span className="text-zinc-200">{metrics[1].value} upcoming interviews</span> this week.
+                        <h1 className="text-2xl font-semibold text-slate-800 tracking-tight">Overview</h1>
+                        <p className="text-slate-500 text-sm mt-1">
+                            Your pipeline is active. <span className="text-slate-700 font-medium">{metrics[1].value} upcoming interviews</span> this week.
                         </p>
                     </div>
                     <button
                         onClick={onAddJob}
-                        className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-white bg-indigo-600/90 hover:bg-indigo-600 rounded-lg shadow-lg shadow-indigo-900/20 transition-all border border-indigo-500/50"
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-md shadow-indigo-200 transition-all"
                     >
                         <Sparkles size={14} />
                         Quick Add
@@ -124,17 +124,17 @@ const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
-                            className="rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise bg-dot-pattern p-5 flex flex-col justify-between hover:border-zinc-700 transition-colors relative group overflow-hidden"
+                            className="rounded-xl border border-slate-200 bg-white p-5 flex flex-col justify-between hover:border-slate-300 hover:shadow-md transition-all relative group overflow-hidden shadow-sm"
                         >
-                            <div className="absolute top-4 right-4 text-zinc-700 group-hover:text-zinc-500 transition-colors z-10">
+                            <div className="absolute top-4 right-4 text-slate-300 group-hover:text-slate-400 transition-colors z-10">
                                 <ArrowUpRight size={16} />
                             </div>
-                            <p className="text-zinc-500 text-xs uppercase tracking-wider font-semibold">{metric.label}</p>
+                            <p className="text-slate-500 text-xs uppercase tracking-wider font-semibold">{metric.label}</p>
                             <div className="mt-2 flex items-baseline gap-3">
                                 <span className={`text-4xl font-thin tracking-tight tabular-nums ${metric.color}`}>
                                     {metric.value}
                                 </span>
-                                <span className="text-xs text-emerald-500/80 bg-emerald-500/10 px-1.5 py-0.5 rounded flex items-center gap-1">
+                                <span className="text-xs text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded flex items-center gap-1 border border-emerald-100">
                                     <TrendingUp size={10} /> +{metric.trend}%
                                 </span>
                             </div>
@@ -149,12 +149,11 @@ const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.98 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="md:col-span-2 rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise p-6 relative overflow-hidden flex flex-col"
+                        className="md:col-span-2 rounded-xl border border-slate-200 bg-white p-6 relative overflow-hidden flex flex-col shadow-sm"
                     >
-                        <div className="absolute inset-0 bg-dot-pattern bg-dot-sm opacity-20 pointer-events-none" />
                         <div className="relative z-10 flex justify-between items-start mb-4 shrink-0">
-                            <h3 className="text-zinc-400 text-sm font-medium">Application Velocity</h3>
-                            <button className="text-zinc-600 hover:text-zinc-300 transition-colors"><MoreHorizontal size={16} /></button>
+                            <h3 className="text-slate-600 text-sm font-medium">Application Velocity</h3>
+                            <button className="text-slate-400 hover:text-slate-600 transition-colors"><MoreHorizontal size={16} /></button>
                         </div>
                         <div className="flex-1 min-h-0 w-full -ml-4 relative">
                             <div className="absolute inset-0">
@@ -162,16 +161,16 @@ const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
                                     <AreaChart data={velocityData.length > 0 ? velocityData : [{ name: 'Today', applications: 0 }]} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                                         <defs>
                                             <linearGradient id="colorApps" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
+                                                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.2} />
                                                 <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
                                             </linearGradient>
                                         </defs>
-                                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#52525b', fontSize: 10 }} dy={10} />
-                                        <YAxis axisLine={false} tickLine={false} tick={{ fill: '#52525b', fontSize: 10 }} width={30} />
+                                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 10 }} dy={10} />
+                                        <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 10 }} width={30} />
                                         <Tooltip
-                                            contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', fontSize: '12px' }}
-                                            itemStyle={{ color: '#e4e4e7' }}
-                                            cursor={{ stroke: '#3f3f46', strokeDasharray: '4 4' }}
+                                            contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', borderRadius: '8px', fontSize: '12px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                                            itemStyle={{ color: '#334155' }}
+                                            cursor={{ stroke: '#cbd5e1', strokeDasharray: '4 4' }}
                                         />
                                         <Area type="monotone" dataKey="applications" stroke="#6366f1" strokeWidth={2} fillOpacity={1} fill="url(#colorApps)" />
                                     </AreaChart>
@@ -185,9 +184,9 @@ const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
                         initial={{ opacity: 0, scale: 0.98 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.1 }}
-                        className="md:col-span-1 rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise p-6 flex flex-col items-center justify-between"
+                        className="md:col-span-1 rounded-xl border border-slate-200 bg-white p-6 flex flex-col items-center justify-between shadow-sm"
                     >
-                        <h3 className="text-zinc-400 text-sm font-medium self-start w-full shrink-0">Status Breakdown</h3>
+                        <h3 className="text-slate-600 text-sm font-medium self-start w-full shrink-0">Status Breakdown</h3>
                         <div className="h-[200px] w-full mt-4 min-h-0 relative">
                             <div className="absolute inset-0">
                                 <ResponsiveContainer width="100%" height="100%">
@@ -200,12 +199,12 @@ const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
                                             dataKey="value"
                                         >
                                             {statusData.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[entry.name as keyof typeof COLORS] || '#71717a'} stroke="rgba(0,0,0,0)" />
+                                                <Cell key={`cell-${index}`} fill={COLORS[entry.name as keyof typeof COLORS] || '#71717a'} stroke="rgba(255,255,255,0.5)" />
                                             ))}
                                         </Pie>
                                         <Tooltip
-                                            contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', fontSize: '12px' }}
-                                            itemStyle={{ color: '#e4e4e7' }}
+                                            contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', borderRadius: '8px', fontSize: '12px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                                            itemStyle={{ color: '#334155' }}
                                         />
                                     </PieChart>
                                 </ResponsiveContainer>
@@ -213,7 +212,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
                         </div>
                         <div className="flex flex-wrap gap-2 justify-center mt-2 shrink-0">
                             {statusData.slice(0, 3).map((entry) => (
-                                <div key={entry.name} className="flex items-center gap-1.5 text-[10px] text-zinc-500">
+                                <div key={entry.name} className="flex items-center gap-1.5 text-[10px] text-slate-500">
                                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[entry.name as keyof typeof COLORS] }} />
                                     {entry.name}
                                 </div>
@@ -226,18 +225,18 @@ const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
                         initial={{ opacity: 0, scale: 0.98 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="md:col-span-1 rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise p-6 flex flex-col"
+                        className="md:col-span-1 rounded-xl border border-slate-200 bg-white p-6 flex flex-col shadow-sm"
                     >
-                        <h3 className="text-zinc-400 text-sm font-medium mb-4 shrink-0">Pipeline Funnel</h3>
+                        <h3 className="text-slate-600 text-sm font-medium mb-4 shrink-0">Pipeline Funnel</h3>
                         <div className="flex-1 min-h-0 w-full -ml-4 relative">
                             <div className="absolute inset-0">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <BarChart data={funnelData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                                         <XAxis type="number" hide />
-                                        <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: '#71717a', fontSize: 10 }} width={60} />
+                                        <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 10 }} width={60} />
                                         <Tooltip
-                                            cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                                            contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '8px', fontSize: '12px' }}
+                                            cursor={{ fill: 'rgba(0,0,0,0.03)' }}
+                                            contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', borderRadius: '8px', fontSize: '12px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                                         />
                                         <Bar dataKey="count" fill="#3b82f6" radius={[0, 4, 4, 0]} barSize={20}>
                                             {funnelData.map((entry, index) => (
@@ -256,67 +255,67 @@ const DashboardView: React.FC<DashboardViewProps> = ({ jobs, onAddJob }) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="rounded-xl border border-zinc-800 bg-zinc-900/40 bg-noise overflow-hidden"
+                    className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm"
                 >
-                    <div className="px-6 py-4 border-b border-zinc-800/50 flex items-center justify-between">
+                    <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                         <div className="flex items-center gap-2">
-                            <List size={16} className="text-indigo-400" />
-                            <h3 className="text-zinc-200 font-medium text-sm">All Applications</h3>
+                            <List size={16} className="text-indigo-500" />
+                            <h3 className="text-slate-700 font-medium text-sm">All Applications</h3>
                         </div>
                         <div className="flex items-center gap-3">
-                            <button className="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-zinc-800 bg-zinc-900 text-xs text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors">
+                            <button className="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-slate-200 bg-white text-xs text-slate-500 hover:text-slate-700 hover:border-slate-300 transition-colors shadow-sm">
                                 <Filter size={12} /> Filter
                             </button>
                         </div>
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm text-zinc-400">
-                            <thead className="bg-zinc-900/50 text-xs uppercase font-medium text-zinc-500">
+                        <table className="w-full text-left text-sm text-slate-600">
+                            <thead className="bg-slate-50 text-xs uppercase font-medium text-slate-500">
                                 <tr>
-                                    <th className="px-6 py-3 cursor-pointer hover:text-zinc-300" onClick={() => requestSort('company')}>
+                                    <th className="px-6 py-3 cursor-pointer hover:text-slate-700" onClick={() => requestSort('company')}>
                                         <div className="flex items-center gap-1">Company <ArrowUpDown size={12} /></div>
                                     </th>
-                                    <th className="px-6 py-3 cursor-pointer hover:text-zinc-300" onClick={() => requestSort('role')}>
+                                    <th className="px-6 py-3 cursor-pointer hover:text-slate-700" onClick={() => requestSort('role')}>
                                         <div className="flex items-center gap-1">Role <ArrowUpDown size={12} /></div>
                                     </th>
-                                    <th className="px-6 py-3 cursor-pointer hover:text-zinc-300" onClick={() => requestSort('status')}>
+                                    <th className="px-6 py-3 cursor-pointer hover:text-slate-700" onClick={() => requestSort('status')}>
                                         <div className="flex items-center gap-1">Status <ArrowUpDown size={12} /></div>
                                     </th>
-                                    <th className="px-6 py-3 cursor-pointer hover:text-zinc-300" onClick={() => requestSort('dateAdded')}>
+                                    <th className="px-6 py-3 cursor-pointer hover:text-slate-700" onClick={() => requestSort('dateAdded')}>
                                         <div className="flex items-center gap-1">Date <ArrowUpDown size={12} /></div>
                                     </th>
                                     <th className="px-6 py-3 text-right">Salary</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-zinc-800/50">
+                            <tbody className="divide-y divide-slate-100">
                                 {sortedJobs.map((job) => (
-                                    <tr key={job.id} className="group hover:bg-zinc-800/30 transition-colors">
+                                    <tr key={job.id} className="group hover:bg-slate-50 transition-colors">
                                         <td className="px-6 py-3.5">
                                             <div className="flex items-center gap-3">
-                                                <div className="h-8 w-8 rounded-md border border-zinc-800 bg-zinc-900 flex items-center justify-center overflow-hidden">
-                                                    <img src={job.logo} alt={job.company} className="h-full w-full object-cover opacity-80" />
+                                                <div className="h-8 w-8 rounded-md border border-slate-200 bg-white flex items-center justify-center overflow-hidden shadow-sm">
+                                                    <img src={job.logo} alt={job.company} className="h-full w-full object-cover" />
                                                 </div>
-                                                <span className="font-medium text-zinc-200">{job.company}</span>
+                                                <span className="font-medium text-slate-800">{job.company}</span>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-3.5 text-zinc-300">{job.role}</td>
+                                        <td className="px-6 py-3.5 text-slate-700">{job.role}</td>
                                         <td className="px-6 py-3.5">
                                             <span className={`px-2 py-0.5 rounded-full text-[10px] uppercase font-medium border ${STATUS_COLORS[job.status]}`}>
                                                 {job.status}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-3.5 tabular-nums text-zinc-500 group-hover:text-zinc-400">
+                                        <td className="px-6 py-3.5 tabular-nums text-slate-500 group-hover:text-slate-600">
                                             {new Date(job.dateAdded).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                         </td>
-                                        <td className="px-6 py-3.5 text-right tabular-nums text-zinc-300">
+                                        <td className="px-6 py-3.5 text-right tabular-nums text-slate-700 font-medium">
                                             {job.salary}
                                         </td>
                                     </tr>
                                 ))}
                                 {sortedJobs.length === 0 && (
                                     <tr>
-                                        <td colSpan={5} className="px-6 py-12 text-center text-zinc-600 italic">
+                                        <td colSpan={5} className="px-6 py-12 text-center text-slate-400 italic">
                                             No applications found.
                                         </td>
                                     </tr>

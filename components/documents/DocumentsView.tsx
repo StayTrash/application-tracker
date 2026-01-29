@@ -76,14 +76,14 @@ const DocumentsView = () => {
     };
 
     return (
-        <div className="flex h-full w-full overflow-hidden bg-zinc-950/50">
+        <div className="flex h-full w-full overflow-hidden bg-slate-50">
             {/* Sidebar List */}
-            <div className="w-64 border-r border-zinc-800/50 flex flex-col bg-zinc-950/30">
-                <div className="p-4 border-b border-zinc-800/50 flex items-center justify-between">
-                    <h2 className="font-semibold text-zinc-200">Documents</h2>
+            <div className="w-64 border-r border-slate-200 flex flex-col bg-white">
+                <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                    <h2 className="font-semibold text-slate-800">Documents</h2>
                     <div className="flex gap-1">
-                        <button onClick={() => handleCreate('cover_letter')} className="p-1.5 hover:bg-zinc-800 rounded text-zinc-400 hover:text-indigo-400 transition-colors" title="New Cover Letter"><FileText size={16} /></button>
-                        <button onClick={() => handleCreate('note')} className="p-1.5 hover:bg-zinc-800 rounded text-zinc-400 hover:text-amber-400 transition-colors" title="New Note"><StickyNote size={16} /></button>
+                        <button onClick={() => handleCreate('cover_letter')} className="p-1.5 hover:bg-slate-100 rounded text-slate-400 hover:text-indigo-600 transition-colors" title="New Cover Letter"><FileText size={16} /></button>
+                        <button onClick={() => handleCreate('note')} className="p-1.5 hover:bg-slate-100 rounded text-slate-400 hover:text-amber-600 transition-colors" title="New Note"><StickyNote size={16} /></button>
                     </div>
                 </div>
                 <div className="flex-1 overflow-y-auto p-2 space-y-1">
@@ -91,43 +91,43 @@ const DocumentsView = () => {
                         <button
                             key={doc.id}
                             onClick={() => setSelectedDocId(doc.id)}
-                            className={`w-full flex items-center gap-3 p-3 rounded-lg text-sm text-left transition-all ${selectedDocId === doc.id ? 'bg-zinc-800/80 text-zinc-100 shadow-sm' : 'text-zinc-500 hover:bg-zinc-900/50 hover:text-zinc-300'}`}
+                            className={`w-full flex items-center gap-3 p-3 rounded-lg text-sm text-left transition-all ${selectedDocId === doc.id ? 'bg-indigo-50 text-indigo-700 shadow-sm border border-indigo-100' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800'}`}
                         >
                             {getTypeIcon(doc.type)}
                             <div className="flex-1 truncate font-medium">{doc.title}</div>
                         </button>
                     ))}
                     {sortedDocs.length === 0 && (
-                        <div className="text-center p-8 text-zinc-600 text-xs">No documents yet</div>
+                        <div className="text-center p-8 text-slate-400 text-xs">No documents yet</div>
                     )}
                 </div>
             </div>
 
             {/* Editor Area */}
-            <div className="flex-1 flex flex-col min-w-0 bg-zinc-950 relative">
+            <div className="flex-1 flex flex-col min-w-0 bg-white relative">
                 {selectedDoc ? (
                     <div className="flex flex-col h-full max-w-3xl mx-auto w-full p-8 md:p-12 animate-in fade-in duration-300">
                         {/* Header */}
                         <div className="flex items-center gap-4 mb-8">
-                            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-zinc-900 border border-zinc-800 shadow-sm">
+                            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-slate-100 border border-slate-200 shadow-sm">
                                 {getTypeIcon(selectedDoc.type)}
                             </div>
                             <input
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                className="bg-transparent text-2xl md:text-3xl font-bold text-zinc-100 placeholder:text-zinc-700 outline-none w-full border-none focus:ring-0 p-0"
+                                className="bg-transparent text-2xl md:text-3xl font-bold text-slate-800 placeholder:text-slate-300 outline-none w-full border-none focus:ring-0 p-0"
                                 placeholder="Untitled Document"
                             />
 
                             <div className="flex items-center gap-2">
-                                <button onClick={handleSave} className="text-zinc-600 hover:text-emerald-400 transition-colors p-2" title="Save Changes">
+                                <button onClick={handleSave} className="text-slate-400 hover:text-emerald-600 transition-colors p-2" title="Save Changes">
                                     <Save size={18} />
                                 </button>
-                                <button onClick={handleCopy} className="text-zinc-600 hover:text-indigo-400 transition-colors p-2" title="Copy to Clipboard">
+                                <button onClick={handleCopy} className="text-slate-400 hover:text-indigo-600 transition-colors p-2" title="Copy to Clipboard">
                                     <Copy size={18} />
                                 </button>
-                                <button onClick={() => handleDelete(selectedDoc.id)} className="text-zinc-600 hover:text-red-400 transition-colors p-2" title="Delete">
+                                <button onClick={() => handleDelete(selectedDoc.id)} className="text-slate-400 hover:text-red-600 transition-colors p-2" title="Delete">
                                     <Trash2 size={18} />
                                 </button>
                             </div>
@@ -137,14 +137,14 @@ const DocumentsView = () => {
                         <textarea
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            className="flex-1 w-full bg-transparent text-zinc-300 text-base leading-relaxed placeholder:text-zinc-800 resize-none outline-none border-none focus:ring-0 p-0 font-mono"
+                            className="flex-1 w-full bg-transparent text-slate-700 text-base leading-relaxed placeholder:text-slate-300 resize-none outline-none border-none focus:ring-0 p-0 font-mono"
                             placeholder="Start typing..."
                             spellCheck={false}
                         />
                     </div>
                 ) : (
-                    <div className="flex-1 flex flex-col items-center justify-center text-zinc-600">
-                        <FileText size={48} className="mb-4 opacity-20" />
+                    <div className="flex-1 flex flex-col items-center justify-center text-slate-400">
+                        <FileText size={48} className="mb-4 opacity-30" />
                         <p>Select a document to view</p>
                     </div>
                 )}

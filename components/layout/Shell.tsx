@@ -94,14 +94,14 @@ const Shell: React.FC<ShellProps> = ({ children }) => {
     }, []);
 
     return (
-        <div className="flex h-screen w-full bg-zinc-950 text-zinc-200 selection:bg-indigo-500/30 font-sans">
+        <div className="flex h-screen w-full bg-slate-50 text-slate-700 selection:bg-indigo-500/30 font-sans">
 
             {/* Sidebar */}
-            <aside className="w-16 border-r border-zinc-800/50 flex flex-col items-center py-6 bg-zinc-950/80 backdrop-blur-md z-50">
+            <aside className="w-16 border-r border-slate-200 flex flex-col items-center py-6 bg-white/90 backdrop-blur-md z-50 shadow-sm">
                 {/* Brand */}
                 <div className="mb-8">
                     <div className="h-10 w-10 flex items-center justify-center">
-                        <img src="/logo.png" alt="App Logo" className="h-full w-full object-contain drop-shadow-lg" />
+                        <img src="/logo.png" alt="App Logo" className="h-full w-full object-contain drop-shadow-md" />
                     </div>
                 </div>
 
@@ -137,7 +137,7 @@ const Shell: React.FC<ShellProps> = ({ children }) => {
                 <div className="mt-auto flex flex-col gap-4 w-full px-2">
                     <Popover>
                         <PopoverTrigger asChild>
-                            <button className="h-8 w-8 rounded-full bg-zinc-800 border border-zinc-700 mx-auto overflow-hidden transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 cursor-pointer">
+                            <button className="h-8 w-8 rounded-full bg-slate-100 border border-slate-200 mx-auto overflow-hidden transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 cursor-pointer shadow-sm">
                                 <img
                                     src={session?.user?.image || `https://ui-avatars.com/api/?name=${session?.user?.name || 'User'}&background=random`}
                                     alt={session?.user?.name || 'User'}
@@ -145,14 +145,14 @@ const Shell: React.FC<ShellProps> = ({ children }) => {
                                 />
                             </button>
                         </PopoverTrigger>
-                        <PopoverContent side="right" align="end" className="w-56 p-1.5 bg-zinc-950 border-zinc-800 ml-2">
-                            <div className="px-2 py-2 mb-1 border-b border-zinc-900">
-                                <p className="text-sm font-medium text-zinc-200 truncate">{session?.user?.name}</p>
-                                <p className="text-xs text-zinc-500 truncate">{session?.user?.email}</p>
+                        <PopoverContent side="right" align="end" className="w-56 p-1.5 bg-white border-slate-200 ml-2 shadow-lg">
+                            <div className="px-2 py-2 mb-1 border-b border-slate-100">
+                                <p className="text-sm font-medium text-slate-800 truncate">{session?.user?.name}</p>
+                                <p className="text-xs text-slate-500 truncate">{session?.user?.email}</p>
                             </div>
                             <button
                                 onClick={() => signOut({ callbackUrl: '/' })}
-                                className="w-full flex items-center gap-2 px-2 py-1.5 text-xs font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-md transition-colors"
+                                className="w-full flex items-center gap-2 px-2 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 hover:text-red-700 rounded-md transition-colors"
                             >
                                 <LogOut size={14} />
                                 Sign Out
@@ -163,37 +163,37 @@ const Shell: React.FC<ShellProps> = ({ children }) => {
             </aside>
 
             {/* Main Content Area */}
-            <main className="flex-1 flex flex-col relative overflow-hidden">
+            <main className="flex-1 flex flex-col relative overflow-hidden bg-slate-50">
                 {/* Top Bar */}
-                <header className="h-14 border-b border-zinc-800/50 flex items-center justify-between px-6 bg-zinc-950/50 backdrop-blur-sm z-40">
+                <header className="h-14 border-b border-slate-200 flex items-center justify-between px-6 bg-white/80 backdrop-blur-sm z-40 shadow-sm">
                     {/* Breadcrumbs / Title */}
-                    <div className="flex items-center gap-2 text-sm text-zinc-500">
-                        <Link href="/dashboard" className="hover:text-zinc-300 transition-colors">Workspace</Link>
-                        <span className="text-zinc-700">/</span>
-                        <span className="text-zinc-200 font-medium">{get_view_display_name(currentView)}</span>
+                    <div className="flex items-center gap-2 text-sm text-slate-500">
+                        <Link href="/dashboard" className="hover:text-slate-700 transition-colors">Workspace</Link>
+                        <span className="text-slate-300">/</span>
+                        <span className="text-slate-800 font-medium">{get_view_display_name(currentView)}</span>
                     </div>
 
                     {/* Search & Actions */}
                     <div className="flex items-center gap-4">
                         {/* Command K Search */}
-                        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-md bg-zinc-900/50 border border-zinc-800/50 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/20 text-xs text-zinc-500 transition-all cursor-text group w-64">
-                            <Search size={14} className="group-hover:text-zinc-400 group-focus-within:text-indigo-400" />
+                        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 text-xs text-slate-500 transition-all cursor-text group w-64 shadow-sm">
+                            <Search size={14} className="group-hover:text-slate-600 group-focus-within:text-indigo-500" />
                             <input
                                 ref={inputRef}
                                 type="text"
                                 value={localSearch}
                                 onChange={(e) => setLocalSearch(e.target.value)}
                                 placeholder="Search applications..."
-                                className="bg-transparent border-none outline-none w-full text-zinc-200 placeholder:text-zinc-600 ml-2 h-full"
+                                className="bg-transparent border-none outline-none w-full text-slate-700 placeholder:text-slate-400 ml-2 h-full"
                             />
-                            <kbd className="ml-auto flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-[10px] font-sans text-zinc-400">
+                            <kbd className="ml-auto flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white border border-slate-200 text-[10px] font-sans text-slate-500 shadow-sm">
                                 {isMac ? <Command size={10} /> : <span className="text-xs">Ctrl</span>} K
                             </kbd>
                         </div>
 
-                        <button className="relative text-zinc-500 hover:text-zinc-300 transition-colors">
+                        <button className="relative text-slate-500 hover:text-slate-700 transition-colors">
                             <Bell size={18} />
-                            <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-indigo-500 ring-2 ring-zinc-950" />
+                            <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-indigo-500 ring-2 ring-white" />
                         </button>
                     </div>
                 </header>
@@ -216,7 +216,7 @@ const NavLink: React.FC<{ href: string; icon: React.ReactNode; label: string; is
         href={href}
         className={`
             relative group w-full aspect-square flex items-center justify-center rounded-xl transition-all duration-300
-            ${isActive ? 'text-indigo-400 bg-indigo-500/10' : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900'}
+            ${isActive ? 'text-indigo-600 bg-indigo-50' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}
         `}
         title={label}
     >
@@ -224,7 +224,7 @@ const NavLink: React.FC<{ href: string; icon: React.ReactNode; label: string; is
         {isActive && (
             <motion.div
                 layoutId="active-nav"
-                className="absolute left-0 top-2 bottom-2 w-0.5 rounded-r-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]"
+                className="absolute left-0 top-2 bottom-2 w-0.5 rounded-r-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.4)]"
             />
         )}
     </Link>
