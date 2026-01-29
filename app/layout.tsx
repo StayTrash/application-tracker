@@ -17,6 +17,25 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "LinearFlow",
   description: "LinearFlow is a platform for tracking your job applications and interviews.",
+  openGraph: {
+    title: "LinearFlow",
+    description: "LinearFlow is a platform for tracking your job applications and interviews.",
+    images: [
+      {
+        url: "/image.png",
+        width: 1200,
+        height: 630,
+        alt: "LinearFlow - Job Application Tracker",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LinearFlow",
+    description: "LinearFlow is a platform for tracking your job applications and interviews.",
+    images: ["/image.png"],
+  },
 };
 
 export default function RootLayout({
