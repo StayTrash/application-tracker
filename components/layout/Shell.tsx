@@ -11,7 +11,9 @@ import {
     Command,
     Briefcase,
     FileText,
-    LogOut
+    LogOut,
+    Sun,
+    Moon
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Toast } from '@/components/ui/Toast';
@@ -19,6 +21,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/store/hooks';
 import { setSearchQuery, removeToast } from '@/lib/store/features/ui/uiSlice';
 import { useSession, signOut } from 'next-auth/react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 interface ShellProps {
     children: React.ReactNode;
@@ -58,6 +61,7 @@ const Shell: React.FC<ShellProps> = ({ children }) => {
     const currentView = get_view_from_pathname(pathname);
     const { searchQuery, toasts } = useAppSelector(state => state.ui);
     const { data: session } = useSession();
+    const { theme, toggle_theme } = useTheme();
 
     const [localSearch, setLocalSearch] = React.useState(searchQuery);
 
@@ -94,10 +98,10 @@ const Shell: React.FC<ShellProps> = ({ children }) => {
     }, []);
 
     return (
-        <div className="flex h-screen w-full bg-slate-50 text-slate-700 selection:bg-indigo-500/30 font-sans">
+        <div className="flex h-screen w-full bg-slate-50 dark:bg-zinc-950 text-slate-700 dark:text-zinc-200 selection:bg-indigo-500/30 font-sans">
 
             {/* Sidebar */}
-            <aside className="w-16 border-r border-slate-200 flex flex-col items-center py-6 bg-white/90 backdrop-blur-md z-50 shadow-sm">
+            <aside className="w-16 border-r border-slate-200 dark:border-zinc-800 flex flex-col items-center py-6 bg-white/90 dark:bg-zinc-950/80 backdrop-blur-md z-50 shadow-sm">
                 {/* Brand */}
                 <div className="mb-8">
                     <div className="h-10 w-10 flex items-center justify-center">
@@ -134,10 +138,20 @@ const Shell: React.FC<ShellProps> = ({ children }) => {
                 </nav>
 
                 {/* Footer Actions */}
-                <div className="mt-auto flex flex-col gap-4 w-full px-2">
+                <div className="mt-auto flex flex-col gap-3 w-full px-2">
+                    {/* Theme Toggle Button */}
+                    <button
+                        onClick={toggle_theme}
+                        className="w-full aspect-square flex items-center justify-center rounded-xl transition-all duration-300 text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800"
+                        title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                    >
+                        {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+                    </button>
+
+                    {/* Account Popover */}
                     <Popover>
                         <PopoverTrigger asChild>
-                            <button className="h-8 w-8 rounded-full bg-slate-100 border border-slate-200 mx-auto overflow-hidden transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 cursor-pointer shadow-sm">
+                            <button className="h-8 w-8 rounded-full bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 mx-auto overflow-hidden transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 cursor-pointer shadow-sm">
                                 <img
                                     src={session?.user?.image || `https://ui-avatars.com/api/?name=${session?.user?.name || 'User'}&background=random`}
                                     alt={session?.user?.name || 'User'}
@@ -145,14 +159,14 @@ const Shell: React.FC<ShellProps> = ({ children }) => {
                                 />
                             </button>
                         </PopoverTrigger>
-                        <PopoverContent side="right" align="end" className="w-56 p-1.5 bg-white border-slate-200 ml-2 shadow-lg">
-                            <div className="px-2 py-2 mb-1 border-b border-slate-100">
-                                <p className="text-sm font-medium text-slate-800 truncate">{session?.user?.name}</p>
-                                <p className="text-xs text-slate-500 truncate">{session?.user?.email}</p>
+                        <PopoverContent side="right" align="end" className="w-56 p-1.5 bg-white dark:bg-zinc-900 border-slate-200 dark:border-zinc-800 ml-2 shadow-lg">
+                            <div className="px-2 py-2 mb-1 border-b border-slate-100 dark:border-zinc-800">
+                                <p className="text-sm font-medium text-slate-800 dark:text-zinc-200 truncate">{session?.user?.name}</p>
+                                <p className="text-xs text-slate-500 dark:text-zinc-500 truncate">{session?.user?.email}</p>
                             </div>
                             <button
                                 onClick={() => signOut({ callbackUrl: '/' })}
-                                className="w-full flex items-center gap-2 px-2 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 hover:text-red-700 rounded-md transition-colors"
+                                className="w-full flex items-center gap-2 px-2 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-700 dark:hover:text-red-400 rounded-md transition-colors"
                             >
                                 <LogOut size={14} />
                                 Sign Out
@@ -163,37 +177,37 @@ const Shell: React.FC<ShellProps> = ({ children }) => {
             </aside>
 
             {/* Main Content Area */}
-            <main className="flex-1 flex flex-col relative overflow-hidden bg-slate-50">
+            <main className="flex-1 flex flex-col relative overflow-hidden bg-slate-50 dark:bg-zinc-950">
                 {/* Top Bar */}
-                <header className="h-14 border-b border-slate-200 flex items-center justify-between px-6 bg-white/80 backdrop-blur-sm z-40 shadow-sm">
+                <header className="h-14 border-b border-slate-200 dark:border-zinc-800 flex items-center justify-between px-6 bg-white/80 dark:bg-zinc-950/50 backdrop-blur-sm z-40 shadow-sm">
                     {/* Breadcrumbs / Title */}
-                    <div className="flex items-center gap-2 text-sm text-slate-500">
-                        <Link href="/dashboard" className="hover:text-slate-700 transition-colors">Workspace</Link>
-                        <span className="text-slate-300">/</span>
-                        <span className="text-slate-800 font-medium">{get_view_display_name(currentView)}</span>
+                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-zinc-500">
+                        <Link href="/dashboard" className="hover:text-slate-700 dark:hover:text-zinc-300 transition-colors">Workspace</Link>
+                        <span className="text-slate-300 dark:text-zinc-700">/</span>
+                        <span className="text-slate-800 dark:text-zinc-200 font-medium">{get_view_display_name(currentView)}</span>
                     </div>
 
                     {/* Search & Actions */}
                     <div className="flex items-center gap-4">
                         {/* Command K Search */}
-                        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 text-xs text-slate-500 transition-all cursor-text group w-64 shadow-sm">
-                            <Search size={14} className="group-hover:text-slate-600 group-focus-within:text-indigo-500" />
+                        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-zinc-900/50 border border-slate-200 dark:border-zinc-800 focus-within:border-indigo-400 dark:focus-within:border-indigo-500/50 focus-within:ring-2 focus-within:ring-indigo-100 dark:focus-within:ring-indigo-500/20 text-xs text-slate-500 dark:text-zinc-500 transition-all cursor-text group w-64 shadow-sm">
+                            <Search size={14} className="group-hover:text-slate-600 dark:group-hover:text-zinc-400 group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-400" />
                             <input
                                 ref={inputRef}
                                 type="text"
                                 value={localSearch}
                                 onChange={(e) => setLocalSearch(e.target.value)}
                                 placeholder="Search applications..."
-                                className="bg-transparent border-none outline-none w-full text-slate-700 placeholder:text-slate-400 ml-2 h-full"
+                                className="bg-transparent border-none outline-none w-full text-slate-700 dark:text-zinc-200 placeholder:text-slate-400 dark:placeholder:text-zinc-600 ml-2 h-full"
                             />
-                            <kbd className="ml-auto flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white border border-slate-200 text-[10px] font-sans text-slate-500 shadow-sm">
+                            <kbd className="ml-auto flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-[10px] font-sans text-slate-500 dark:text-zinc-400 shadow-sm">
                                 {isMac ? <Command size={10} /> : <span className="text-xs">Ctrl</span>} K
                             </kbd>
                         </div>
 
-                        <button className="relative text-slate-500 hover:text-slate-700 transition-colors">
+                        <button className="relative text-slate-500 dark:text-zinc-500 hover:text-slate-700 dark:hover:text-zinc-300 transition-colors">
                             <Bell size={18} />
-                            <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-indigo-500 ring-2 ring-white" />
+                            <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-indigo-500 ring-2 ring-white dark:ring-zinc-950" />
                         </button>
                     </div>
                 </header>
@@ -216,7 +230,9 @@ const NavLink: React.FC<{ href: string; icon: React.ReactNode; label: string; is
         href={href}
         className={`
             relative group w-full aspect-square flex items-center justify-center rounded-xl transition-all duration-300
-            ${isActive ? 'text-indigo-600 bg-indigo-50' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'}
+            ${isActive 
+                ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10' 
+                : 'text-slate-400 dark:text-zinc-500 hover:text-slate-600 dark:hover:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-900'}
         `}
         title={label}
     >

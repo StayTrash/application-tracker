@@ -25,9 +25,9 @@ const ToastItem: React.FC<{ toast: ToastType; removeToast: (id: string) => void 
     };
 
     const backgrounds = {
-        success: 'bg-emerald-50 border-emerald-200 hover:border-emerald-300',
-        error: 'bg-red-50 border-red-200 hover:border-red-300',
-        info: 'bg-indigo-50 border-indigo-200 hover:border-indigo-300',
+        success: 'bg-emerald-50 dark:bg-zinc-900/90 border-emerald-200 dark:border-emerald-500/20 hover:border-emerald-300 dark:hover:border-emerald-500/40',
+        error: 'bg-red-50 dark:bg-zinc-900/90 border-red-200 dark:border-red-500/20 hover:border-red-300 dark:hover:border-red-500/40',
+        info: 'bg-indigo-50 dark:bg-zinc-900/90 border-indigo-200 dark:border-indigo-500/20 hover:border-indigo-300 dark:hover:border-indigo-500/40',
     };
 
     return (
@@ -38,15 +38,15 @@ const ToastItem: React.FC<{ toast: ToastType; removeToast: (id: string) => void 
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
             className={`
                 relative flex items-center gap-3 w-80 p-3 rounded-lg 
-                border shadow-lg shadow-slate-200/50
+                border shadow-lg shadow-slate-200/50 dark:shadow-black/50 backdrop-blur-md
                 ${backgrounds[toast.type]}
                 transition-colors cursor-pointer group
             `}
             onClick={() => removeToast(toast.id)}
         >
             <div className="shrink-0">{icons[toast.type]}</div>
-            <div className="flex-1 text-sm text-slate-700 font-medium">{toast.message}</div>
-            <button className="text-slate-400 group-hover:text-slate-600 transition-colors">
+            <div className="flex-1 text-sm text-slate-700 dark:text-zinc-200 font-medium">{toast.message}</div>
+            <button className="text-slate-400 dark:text-zinc-600 group-hover:text-slate-600 dark:group-hover:text-zinc-400 transition-colors">
                 <X size={14} />
             </button>
         </motion.div>

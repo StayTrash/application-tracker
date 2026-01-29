@@ -5,7 +5,7 @@ import { Skeleton } from './Skeleton';
 
 // Skeleton for Dashboard Metric Card
 const MetricCardSkeleton: React.FC = () => (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-3 shadow-sm">
+    <div className="rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-5 space-y-3 shadow-sm">
         <Skeleton className="h-3 w-24" />
         <div className="flex items-baseline gap-3 mt-2">
             <Skeleton className="h-10 w-16" />
@@ -16,7 +16,7 @@ const MetricCardSkeleton: React.FC = () => (
 
 // Skeleton for Chart Container
 const ChartSkeleton: React.FC<{ className?: string }> = ({ className }) => (
-    <div className={`rounded-xl border border-slate-200 bg-white p-6 flex flex-col shadow-sm ${className || ''}`}>
+    <div className={`rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-6 flex flex-col shadow-sm ${className || ''}`}>
         <Skeleton className="h-4 w-32 mb-4" />
         <div className="flex-1 flex items-end justify-around gap-2 pt-4">
             <Skeleton className="w-8 h-[40%] rounded-t" />
@@ -32,12 +32,12 @@ const ChartSkeleton: React.FC<{ className?: string }> = ({ className }) => (
 
 // Skeleton for Pie/Donut Chart
 const PieChartSkeleton: React.FC = () => (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 flex flex-col items-center justify-between shadow-sm">
+    <div className="rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-6 flex flex-col items-center justify-between shadow-sm">
         <Skeleton className="h-4 w-28 self-start" />
         <div className="relative my-4">
             <Skeleton className="h-40 w-40 rounded-full" />
             <div className="absolute inset-0 flex items-center justify-center">
-                <div className="h-24 w-24 rounded-full bg-white" />
+                <div className="h-24 w-24 rounded-full bg-white dark:bg-zinc-900" />
             </div>
         </div>
         <div className="flex gap-4 mt-2">
@@ -59,7 +59,7 @@ const PieChartSkeleton: React.FC = () => (
 
 // Skeleton for Table Row
 const TableRowSkeleton: React.FC = () => (
-    <tr className="border-b border-slate-100">
+    <tr className="border-b border-slate-100 dark:border-zinc-800">
         <td className="px-6 py-3.5">
             <div className="flex items-center gap-3">
                 <Skeleton className="h-8 w-8 rounded-md" />
@@ -82,7 +82,7 @@ const TableRowSkeleton: React.FC = () => (
 );
 
 export const DashboardSkeleton: React.FC = () => (
-    <div className="p-8 h-full overflow-y-auto custom-scrollbar bg-slate-50">
+    <div className="p-8 h-full overflow-y-auto custom-scrollbar bg-slate-50 dark:bg-zinc-950">
         <div className="max-w-7xl mx-auto space-y-6">
             {/* Header */}
             <div className="flex items-end justify-between mb-2">
@@ -108,8 +108,8 @@ export const DashboardSkeleton: React.FC = () => (
             </div>
 
             {/* Table Section */}
-            <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm">
-                <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 overflow-hidden shadow-sm">
+                <div className="px-6 py-4 border-b border-slate-100 dark:border-zinc-800 flex items-center justify-between bg-slate-50/50 dark:bg-zinc-800/50">
                     <div className="flex items-center gap-2">
                         <Skeleton className="h-4 w-4 rounded" />
                         <Skeleton className="h-4 w-28" />
@@ -118,7 +118,7 @@ export const DashboardSkeleton: React.FC = () => (
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-sm">
-                        <thead className="bg-slate-50">
+                        <thead className="bg-slate-50 dark:bg-zinc-800/50">
                             <tr>
                                 <th className="px-6 py-3"><Skeleton className="h-3 w-16" /></th>
                                 <th className="px-6 py-3"><Skeleton className="h-3 w-12" /></th>

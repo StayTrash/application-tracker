@@ -24,16 +24,15 @@ const JobCard: React.FC<JobCardProps> = ({ job, isCompact = false, onDragStart, 
             whileHover={{
                 scale: 1.02,
                 y: -2,
-                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
                 zIndex: 10
             }}
             whileDrag={{ scale: 1.05, opacity: 0.9, cursor: 'grabbing' }}
             className={`
                 relative group overflow-hidden
-                rounded-xl border border-slate-200 
-                bg-white shadow-sm
+                rounded-xl border border-slate-200 dark:border-zinc-700/50
+                bg-white dark:bg-zinc-900 shadow-sm
                 ${isCompact ? 'p-3' : 'p-4'}
-                hover:border-slate-300 hover:shadow-md transition-all duration-300
+                hover:border-slate-300 dark:hover:border-zinc-600 hover:shadow-md dark:hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.3)] transition-all duration-300
                 cursor-grab active:cursor-grabbing
             `}
         >
@@ -49,7 +48,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, isCompact = false, onDragStart, 
                                 e.stopPropagation();
                                 onEdit(job);
                             }}
-                            className="p-1.5 rounded-md bg-white border border-slate-200 text-slate-400 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 transition-colors shadow-sm"
+                            className="p-1.5 rounded-md bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-slate-400 dark:text-zinc-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-200 dark:hover:border-indigo-500/50 hover:bg-indigo-50 dark:hover:bg-zinc-700 transition-colors shadow-sm backdrop-blur-md"
                             title="Edit Application"
                         >
                             <Pencil size={12} />
@@ -61,7 +60,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, isCompact = false, onDragStart, 
                                 e.stopPropagation();
                                 onDelete(job.id);
                             }}
-                            className="p-1.5 rounded-md bg-white border border-slate-200 text-slate-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-colors shadow-sm"
+                            className="p-1.5 rounded-md bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-slate-400 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-500/50 hover:bg-red-50 dark:hover:bg-zinc-700 transition-colors shadow-sm backdrop-blur-md"
                             title="Delete Application"
                         >
                             <Trash2 size={12} />
@@ -74,18 +73,18 @@ const JobCard: React.FC<JobCardProps> = ({ job, isCompact = false, onDragStart, 
                 {/* Header */}
                 <div className="flex items-start justify-between">
                     <div className="flex gap-3">
-                        <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+                        <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 shadow-sm">
                             <img
                                 src={job.logo}
                                 alt={`${job.company} logo`}
-                                className="h-full w-full object-cover"
+                                className="h-full w-full object-cover dark:opacity-90 dark:group-hover:opacity-100 transition-opacity"
                             />
                         </div>
                         <div>
-                            <h3 className="font-medium text-slate-800 leading-tight group-hover:text-indigo-600 transition-colors">
+                            <h3 className="font-medium text-slate-800 dark:text-zinc-100 leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                                 {job.role}
                             </h3>
-                            <p className="text-sm text-slate-500 font-light">{job.company}</p>
+                            <p className="text-sm text-slate-500 dark:text-zinc-500 font-light">{job.company}</p>
                         </div>
                     </div>
 
@@ -100,19 +99,19 @@ const JobCard: React.FC<JobCardProps> = ({ job, isCompact = false, onDragStart, 
                 </div>
 
                 {/* Metadata */}
-                <div className="grid grid-cols-2 gap-y-2 text-xs text-slate-500">
+                <div className="grid grid-cols-2 gap-y-2 text-xs text-slate-500 dark:text-zinc-400">
                     <div className="flex items-center gap-1.5">
-                        <MapPin size={12} className="text-slate-400" />
+                        <MapPin size={12} className="text-slate-400 dark:text-zinc-600" />
                         <span className="truncate">{job.location}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                        <Banknote size={12} className="text-slate-400" />
+                        <Banknote size={12} className="text-slate-400 dark:text-zinc-600" />
                         <span className="tabular-nums">{job.salary}</span>
                     </div>
                     <div className="flex items-center gap-1.5 col-span-2">
-                        <Calendar size={12} className="text-slate-400" />
-                        <span className="text-slate-500">Applied </span>
-                        <span className="tabular-nums text-slate-700">
+                        <Calendar size={12} className="text-slate-400 dark:text-zinc-600" />
+                        <span className="text-slate-500 dark:text-zinc-500">Applied </span>
+                        <span className="tabular-nums text-slate-700 dark:text-zinc-300">
                             {new Date(job.dateAdded).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                         </span>
                     </div>
@@ -134,7 +133,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, isCompact = false, onDragStart, 
                             return uniqueTags.map((tag) => (
                                 <span
                                     key={tag}
-                                    className="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-[10px] text-slate-500 group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:border-indigo-100 transition-colors"
+                                    className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-[10px] text-slate-500 dark:text-zinc-400 group-hover:bg-indigo-50 dark:group-hover:bg-zinc-700 group-hover:text-indigo-600 dark:group-hover:text-zinc-300 group-hover:border-indigo-100 dark:group-hover:border-zinc-600 transition-colors"
                                 >
                                     {tag}
                                 </span>

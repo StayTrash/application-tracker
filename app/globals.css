@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Configure dark mode to use the 'dark' class on HTML element */
+@custom-variant dark (&&:where(.dark, .dark *));
+
 @theme {
   --color-zinc-850: #1f1f22;
   --color-zinc-900: #18181b;

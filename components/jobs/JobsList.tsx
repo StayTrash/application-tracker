@@ -69,20 +69,22 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
     };
 
     return (
-        <div className="h-full flex flex-col bg-slate-50">
+        <div className="h-full flex flex-col bg-slate-50 dark:bg-zinc-950">
             {/* Toolbar */}
-            <div className="h-16 shrink-0 flex items-center justify-between px-8 border-b border-slate-200 backdrop-blur-sm bg-white/80 shadow-sm">
+            <div className="h-16 shrink-0 flex items-center justify-between px-8 border-b border-slate-200 dark:border-zinc-800 backdrop-blur-sm bg-white/80 dark:bg-zinc-950/50 shadow-sm">
                 <div className="flex items-center gap-4">
-                    <h2 className="text-sm font-medium text-slate-700">All Applications</h2>
-                    <span className="h-4 w-px bg-slate-200" />
-                    <span className="text-xs text-slate-500 tabular-nums">{filteredJobs.length} records</span>
+                    <h2 className="text-sm font-medium text-slate-700 dark:text-zinc-200">All Applications</h2>
+                    <span className="h-4 w-px bg-slate-200 dark:bg-zinc-700" />
+                    <span className="text-xs text-slate-500 dark:text-zinc-500 tabular-nums">{filteredJobs.length} records</span>
                 </div>
                 <div className="flex items-center gap-3">
                     <Popover>
                         <PopoverTrigger asChild>
                             <button className={cn(
                                 "flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors shadow-sm",
-                                dateRange ? "bg-indigo-50 border-indigo-200 text-indigo-600" : "border-slate-200 bg-white text-slate-600 hover:text-slate-800 hover:border-slate-300"
+                                dateRange 
+                                    ? "bg-indigo-50 dark:bg-indigo-500/10 border-indigo-200 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400" 
+                                    : "border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 hover:text-slate-800 dark:hover:text-zinc-100 hover:border-slate-300 dark:hover:border-zinc-600"
                             )}>
                                 <Filter size={14} />
                                 {dateRange?.from ? (
@@ -98,7 +100,7 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
                                 )}
                             </button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-4 bg-white border border-slate-200 rounded-xl shadow-xl min-w-[340px]" align="end">
+                        <PopoverContent className="w-auto p-4 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl shadow-xl min-w-[340px]" align="end">
                             <Calendar
                                 initialFocus
                                 mode="range"
@@ -109,10 +111,10 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
                                 className="p-4"
                             />
                             {dateRange && (
-                                <div className="p-3 border-t border-slate-100 bg-slate-50/50 flex justify-end">
+                                <div className="p-3 border-t border-slate-100 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-800/50 flex justify-end">
                                     <button
                                         onClick={() => setDateRange(undefined)}
-                                        className="text-xs text-slate-500 hover:text-slate-800 transition-colors"
+                                        className="text-xs text-slate-500 dark:text-zinc-400 hover:text-slate-800 dark:hover:text-zinc-200 transition-colors"
                                     >
                                         Clear Filter
                                     </button>
@@ -120,12 +122,12 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
                             )}
                         </PopoverContent>
                     </Popover>
-                    <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-xs font-medium text-slate-600 hover:text-slate-800 hover:border-slate-300 transition-colors shadow-sm">
+                    <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-xs font-medium text-slate-600 dark:text-zinc-300 hover:text-slate-800 dark:hover:text-zinc-100 hover:border-slate-300 dark:hover:border-zinc-600 transition-colors shadow-sm">
                         <Download size={14} /> Export
                     </button>
                     <button
                         onClick={onAddJob}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium shadow-md shadow-indigo-200 transition-all"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium shadow-md shadow-indigo-200 dark:shadow-indigo-900/30 transition-all"
                     >
                         <Plus size={14} /> New Application
                     </button>
@@ -133,24 +135,24 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
             </div>
 
             {/* Table Container */}
-            <div className="flex-1 overflow-auto custom-scrollbar bg-white">
-                <table className="w-full text-left text-sm text-slate-600">
-                    <thead className="bg-slate-50 text-xs uppercase font-medium text-slate-500 sticky top-0 z-10 border-b border-slate-200">
+            <div className="flex-1 overflow-auto custom-scrollbar bg-white dark:bg-zinc-950">
+                <table className="w-full text-left text-sm text-slate-600 dark:text-zinc-300">
+                    <thead className="bg-slate-50 dark:bg-zinc-900/80 text-xs uppercase font-medium text-slate-500 dark:text-zinc-500 sticky top-0 z-10 border-b border-slate-200 dark:border-zinc-800">
                         <tr>
-                            <th className="px-8 py-4 w-12 text-center text-slate-400">#</th>
-                            <th className="px-4 py-4 cursor-pointer hover:text-slate-700 transition-colors" onClick={() => requestSort('company')}>
+                            <th className="px-8 py-4 w-12 text-center text-slate-400 dark:text-zinc-600">#</th>
+                            <th className="px-4 py-4 cursor-pointer hover:text-slate-700 dark:hover:text-zinc-300 transition-colors" onClick={() => requestSort('company')}>
                                 <div className="flex items-center gap-2">Company <ArrowUpDown size={12} className="opacity-50" /></div>
                             </th>
-                            <th className="px-4 py-4 cursor-pointer hover:text-slate-700 transition-colors" onClick={() => requestSort('role')}>
+                            <th className="px-4 py-4 cursor-pointer hover:text-slate-700 dark:hover:text-zinc-300 transition-colors" onClick={() => requestSort('role')}>
                                 <div className="flex items-center gap-2">Role <ArrowUpDown size={12} className="opacity-50" /></div>
                             </th>
-                            <th className="px-4 py-4 cursor-pointer hover:text-slate-700 transition-colors" onClick={() => requestSort('location')}>
+                            <th className="px-4 py-4 cursor-pointer hover:text-slate-700 dark:hover:text-zinc-300 transition-colors" onClick={() => requestSort('location')}>
                                 <div className="flex items-center gap-2">Location <ArrowUpDown size={12} className="opacity-50" /></div>
                             </th>
-                            <th className="px-4 py-4 cursor-pointer hover:text-slate-700 transition-colors" onClick={() => requestSort('status')}>
+                            <th className="px-4 py-4 cursor-pointer hover:text-slate-700 dark:hover:text-zinc-300 transition-colors" onClick={() => requestSort('status')}>
                                 <div className="flex items-center gap-2">Status <ArrowUpDown size={12} className="opacity-50" /></div>
                             </th>
-                            <th className="px-4 py-4 cursor-pointer hover:text-slate-700 transition-colors" onClick={() => requestSort('dateAdded')}>
+                            <th className="px-4 py-4 cursor-pointer hover:text-slate-700 dark:hover:text-zinc-300 transition-colors" onClick={() => requestSort('dateAdded')}>
                                 <div className="flex items-center gap-2">Applied Date <ArrowUpDown size={12} className="opacity-50" /></div>
                             </th>
                             <th className="px-4 py-4 text-right">Salary</th>
@@ -161,44 +163,44 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
                         {sortedJobs.map((job, index) => (
                             <tr
                                 key={job.id}
-                                className="group hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0"
+                                className="group hover:bg-slate-50 dark:hover:bg-zinc-900/60 transition-colors border-b border-slate-100 dark:border-zinc-800/60 last:border-0"
                             >
-                                <td className="px-8 py-4 text-center text-slate-400 text-xs font-mono">
+                                <td className="px-8 py-4 text-center text-slate-400 dark:text-zinc-600 text-xs font-mono">
                                     {(index + 1).toString().padStart(2, '0')}
                                 </td>
                                 <td className="px-4 py-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="h-6 w-6 rounded border border-slate-200 bg-white flex items-center justify-center overflow-hidden shadow-sm">
+                                        <div className="h-6 w-6 rounded border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex items-center justify-center overflow-hidden shadow-sm">
                                             <img src={job.logo} alt={job.company} className="h-full w-full object-cover" />
                                         </div>
-                                        <span className="font-medium text-slate-800">{job.company}</span>
+                                        <span className="font-medium text-slate-800 dark:text-zinc-100">{job.company}</span>
                                     </div>
                                 </td>
-                                <td className="px-4 py-4 text-slate-700 font-medium">{job.role}</td>
-                                <td className="px-4 py-4 text-slate-500">{job.location}</td>
+                                <td className="px-4 py-4 text-slate-700 dark:text-zinc-200 font-medium">{job.role}</td>
+                                <td className="px-4 py-4 text-slate-500 dark:text-zinc-500">{job.location}</td>
                                 <td className="px-4 py-4">
                                     <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] uppercase font-bold tracking-wider border ${STATUS_COLORS[job.status]}`}>
                                         {job.status}
                                     </span>
                                 </td>
-                                <td className="px-4 py-4 tabular-nums text-slate-500 group-hover:text-slate-600">
+                                <td className="px-4 py-4 tabular-nums text-slate-500 dark:text-zinc-500 group-hover:text-slate-600 dark:group-hover:text-zinc-400">
                                     {new Date(job.dateAdded).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                 </td>
-                                <td className="px-4 py-4 text-right tabular-nums text-slate-700 font-medium">
+                                <td className="px-4 py-4 text-right tabular-nums text-slate-700 dark:text-zinc-200 font-medium">
                                     {job.salary}
                                 </td>
                                 <td className="px-8 py-4 text-right">
                                     <div className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end gap-2">
                                         <button
                                             onClick={() => onEditJob(job)}
-                                            className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors"
+                                            className="p-1.5 text-slate-400 dark:text-zinc-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded transition-colors"
                                             title="Edit"
                                         >
                                             <Pencil size={14} />
                                         </button>
                                         <button
                                             onClick={() => onDeleteJob(job.id)}
-                                            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                                            className="p-1.5 text-slate-400 dark:text-zinc-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded transition-colors"
                                             title="Delete"
                                         >
                                             <Trash2 size={14} />
@@ -210,9 +212,9 @@ const JobsList: React.FC<JobsListProps> = ({ jobs, onAddJob, onEditJob, onDelete
                     </tbody>
                 </table>
                 {sortedJobs.length === 0 && (
-                    <div className="flex flex-col items-center justify-center h-64 text-slate-500">
+                    <div className="flex flex-col items-center justify-center h-64 text-slate-500 dark:text-zinc-400">
                         <p>No applications found.</p>
-                        <button onClick={onAddJob} className="mt-4 text-indigo-600 hover:text-indigo-700 text-sm font-medium">Add your first job</button>
+                        <button onClick={onAddJob} className="mt-4 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 text-sm font-medium">Add your first job</button>
                     </div>
                 )}
             </div>

@@ -5,7 +5,7 @@ import { Skeleton } from './Skeleton';
 
 // Skeleton for a single JobCard in Kanban
 const JobCardSkeleton: React.FC = () => (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 space-y-3 shadow-sm">
+    <div className="rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-4 space-y-3 shadow-sm">
         <div className="flex items-start justify-between">
             <div className="flex gap-3">
                 <Skeleton className="h-10 w-10 rounded-lg" />
@@ -39,12 +39,12 @@ const JobCardSkeleton: React.FC = () => (
 );
 
 export const KanbanSkeleton: React.FC = () => (
-    <div className="h-full flex flex-col overflow-hidden bg-slate-50">
+    <div className="h-full flex flex-col overflow-hidden bg-slate-50 dark:bg-zinc-950">
         {/* Board Header */}
-        <div className="h-16 shrink-0 flex items-center justify-between px-8 border-b border-slate-200 backdrop-blur-sm bg-white/80 z-20 shadow-sm">
+        <div className="h-16 shrink-0 flex items-center justify-between px-8 border-b border-slate-200 dark:border-zinc-800 backdrop-blur-sm bg-white/80 dark:bg-zinc-950/50 z-20 shadow-sm">
             <div className="flex items-center gap-4">
                 <Skeleton className="h-4 w-24" />
-                <span className="h-4 w-px bg-slate-200" />
+                <span className="h-4 w-px bg-slate-200 dark:bg-zinc-700" />
                 <div className="flex -space-x-2">
                     <Skeleton className="h-6 w-6 rounded-full" />
                     <Skeleton className="h-6 w-6 rounded-full" />

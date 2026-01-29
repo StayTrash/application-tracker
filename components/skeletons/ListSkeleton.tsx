@@ -5,7 +5,7 @@ import { Skeleton } from './Skeleton';
 
 // Jobs List Table Row Skeleton
 const JobsListRowSkeleton: React.FC<{ index: number }> = ({ index }) => (
-    <tr className="border-b border-slate-100">
+    <tr className="border-b border-slate-100 dark:border-zinc-800">
         <td className="px-8 py-4 text-center">
             <Skeleton className="h-4 w-6 mx-auto" />
         </td>
@@ -35,12 +35,12 @@ const JobsListRowSkeleton: React.FC<{ index: number }> = ({ index }) => (
 );
 
 export const ListSkeleton: React.FC = () => (
-    <div className="h-full flex flex-col bg-slate-50">
+    <div className="h-full flex flex-col bg-slate-50 dark:bg-zinc-950">
         {/* Toolbar */}
-        <div className="h-16 shrink-0 flex items-center justify-between px-8 border-b border-slate-200 backdrop-blur-sm bg-white/80 shadow-sm">
+        <div className="h-16 shrink-0 flex items-center justify-between px-8 border-b border-slate-200 dark:border-zinc-700 backdrop-blur-sm bg-white/80 dark:bg-zinc-900 shadow-sm">
             <div className="flex items-center gap-4">
                 <Skeleton className="h-4 w-28" />
-                <span className="h-4 w-px bg-slate-200" />
+                <span className="h-4 w-px bg-slate-200 dark:bg-zinc-700" />
                 <Skeleton className="h-3 w-16" />
             </div>
             <div className="flex items-center gap-3">
@@ -51,9 +51,9 @@ export const ListSkeleton: React.FC = () => (
         </div>
 
         {/* Table */}
-        <div className="flex-1 overflow-auto bg-white">
+        <div className="flex-1 overflow-auto bg-white dark:bg-zinc-900">
             <table className="w-full text-left text-sm">
-                <thead className="bg-slate-50 sticky top-0 z-10 border-b border-slate-200">
+                <thead className="bg-slate-50 dark:bg-zinc-800 sticky top-0 z-10 border-b border-slate-200 dark:border-zinc-700">
                     <tr>
                         <th className="px-8 py-4 w-12"><Skeleton className="h-3 w-4 mx-auto" /></th>
                         <th className="px-4 py-4"><Skeleton className="h-3 w-16" /></th>
