@@ -336,28 +336,52 @@ const PreviewDashboardContent: React.FC = () => {
                 <PreviewKanban />
             </div>
 
-            {/* Animated Cursor */}
+            {/* Smooth Hovering Cursor */}
             <motion.div
-                className="absolute w-4 h-4 md:w-5 md:h-5 pointer-events-none z-50 hidden md:block"
-                initial={{ x: '30%', y: '30%', opacity: 0 }}
-                animate={{
-                    x: ['30%', '50%', '50%', '70%', '70%', '30%'],
-                    y: ['30%', '40%', '60%', '35%', '55%', '30%'],
-                    opacity: [0, 1, 1, 1, 1, 0]
+                className="absolute pointer-events-none z-50 hidden md:block"
+                style={{ width: 20, height: 20 }}
+                initial={{ 
+                    left: '20%', 
+                    top: '30%', 
+                    opacity: 0,
+                    scale: 0.8
                 }}
-                transition={{ duration: 8, repeat: Infinity, repeatDelay: 2 }}
+                animate={{ 
+                    left: ['20%', '35%', '55%', '70%', '55%', '35%', '20%'],
+                    top: ['30%', '45%', '35%', '50%', '60%', '40%', '30%'],
+                    opacity: [0, 1, 1, 1, 1, 1, 0],
+                    scale: [0.8, 1, 1, 1, 1, 1, 0.8]
+                }}
+                transition={{ 
+                    duration: 8,
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    ease: [0.25, 0.1, 0.25, 1],
+                }}
             >
-                <svg viewBox="0 0 24 24" fill="none" className="w-full h-full drop-shadow-lg">
-                    <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87c.48 0 .72-.58.38-.92L6.35 2.85a.5.5 0 0 0-.85.36Z" fill={theme === 'dark' ? 'white' : 'black'} stroke={theme === 'dark' ? 'black' : 'white'} strokeWidth="1" />
-                </svg>
+                {/* Cursor SVG */}
+                <motion.svg 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    className="w-5 h-5 drop-shadow-lg"
+                    style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}
+                >
+                    <path 
+                        d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87c.48 0 .72-.58.38-.92L6.35 2.85a.5.5 0 0 0-.85.36Z" 
+                        fill={theme === 'dark' ? 'white' : '#1a1a1a'}
+                        stroke={theme === 'dark' ? '#333' : 'white'}
+                        strokeWidth="1"
+                    />
+                </motion.svg>
+                
+                {/* Subtle glow beneath cursor */}
                 <motion.div
-                    className="absolute top-0 left-0 w-6 h-6 rounded-full border-2 border-indigo-400"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{
-                        scale: [0, 1.5, 0],
-                        opacity: [0, 0.5, 0]
+                    className="absolute top-1 left-1 w-3 h-3 rounded-full blur-sm"
+                    style={{ 
+                        background: theme === 'dark' 
+                            ? 'rgba(255,255,255,0.4)' 
+                            : 'rgba(0,0,0,0.2)'
                     }}
-                    transition={{ duration: 8, repeat: Infinity, repeatDelay: 2, times: [0, 0.3, 0.35] }}
                 />
             </motion.div>
         </div>
