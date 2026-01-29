@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
 
                         <div className="h-4 w-px bg-zinc-800 hidden md:block" />
 
-                        <span className="text-zinc-600 text-sm">© 2024 LinearFlow</span>
+                        <span className="text-zinc-600 text-sm">© 2026 LinearFlow</span>
                     </div>
                 </div>
             </div>
