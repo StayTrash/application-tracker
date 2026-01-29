@@ -10,6 +10,7 @@
   --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 
   --background-image-dot-pattern: radial-gradient(circle, #3f3f46 1px, transparent 1px);
+  --background-image-dot-pattern-light: radial-gradient(circle, #d4d4d8 1px, transparent 1px);
   --background-image-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
   --background-image-gradient-card: linear-gradient(180deg, rgba(39, 39, 42, 0.4) 0%, rgba(39, 39, 42, 0.1) 100%);
   --background-image-shine: linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.1) 50%, transparent 75%);
@@ -18,6 +19,37 @@
 
   --shadow-glow: 0 0 20px -10px rgba(99, 102, 241, 0.5);
   --shadow-inner-light: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+/* CSS Variables for theming */
+:root {
+  --bg-primary: #09090b;
+  --bg-secondary: #18181b;
+  --bg-tertiary: #27272a;
+  --bg-card: rgba(39, 39, 42, 0.5);
+  --bg-card-hover: rgba(39, 39, 42, 0.8);
+  --bg-navbar: rgba(24, 24, 27, 0.7);
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --border-primary: rgba(63, 63, 70, 0.5);
+  --border-secondary: rgba(39, 39, 42, 0.5);
+  --dot-pattern: radial-gradient(circle, #3f3f46 1px, transparent 1px);
+}
+
+html.light {
+  --bg-primary: #fafafa;
+  --bg-secondary: #f4f4f5;
+  --bg-tertiary: #e4e4e7;
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --bg-card-hover: rgba(255, 255, 255, 0.95);
+  --bg-navbar: rgba(255, 255, 255, 0.8);
+  --text-primary: #18181b;
+  --text-secondary: #52525b;
+  --text-muted: #71717a;
+  --border-primary: rgba(228, 228, 231, 0.8);
+  --border-secondary: rgba(212, 212, 216, 0.5);
+  --dot-pattern: radial-gradient(circle, #d4d4d8 1px, transparent 1px);
 }
 
 /* Base Styles */
@@ -32,11 +64,11 @@ html {
 }
 
 body {
-  background-color: var(--color-zinc-950);
-  color: #e4e4e7;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  /* overflow: hidden; Removed to allow landing page scroll. LinearShell handles its own fixed height. */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Custom Scrollbar */
@@ -50,12 +82,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: var(--bg-tertiary);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: var(--text-muted);
 }
 
 /* Utilities */
@@ -79,7 +111,7 @@ body {
 }
 
 .bg-dot-pattern {
-  background-image: var(--background-image-dot-pattern);
+  background-image: var(--dot-pattern);
   background-size: var(--background-size-dot-sm);
 }
 

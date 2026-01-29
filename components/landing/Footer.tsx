@@ -2,10 +2,17 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 const Footer: React.FC = () => {
+    const { theme } = useTheme();
+
     return (
-        <footer className="relative border-t border-zinc-800/50 bg-zinc-950 overflow-hidden">
+        <footer className={`relative border-t overflow-hidden transition-colors duration-300 ${
+            theme === 'dark' 
+                ? 'border-zinc-800/50 bg-zinc-950' 
+                : 'border-zinc-200/50 bg-zinc-50'
+        }`}>
             {/* Subtle top glow line */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent" />
 
@@ -17,7 +24,7 @@ const Footer: React.FC = () => {
                         <div className="h-8 w-8 flex items-center justify-center">
                             <img src="/logo.png" alt="LinearFlow Logo" className="h-full w-full object-contain" />
                         </div>
-                        <span className="font-semibold text-zinc-200 tracking-tight">LinearFlow</span>
+                        <span className={`font-semibold tracking-tight ${theme === 'dark' ? 'text-zinc-200' : 'text-zinc-800'}`}>LinearFlow</span>
                     </div>
 
                     {/* Links */}
@@ -26,7 +33,11 @@ const Footer: React.FC = () => {
                             <a
                                 key={link}
                                 href="#"
-                                className="text-zinc-500 hover:text-zinc-300 transition-colors duration-200"
+                                className={`transition-colors duration-200 ${
+                                    theme === 'dark' 
+                                        ? 'text-zinc-500 hover:text-zinc-300' 
+                                        : 'text-zinc-500 hover:text-zinc-800'
+                                }`}
                             >
                                 {link}
                             </a>
@@ -44,7 +55,11 @@ const Footer: React.FC = () => {
                                 <motion.a
                                     key={icon}
                                     href="#"
-                                    className="w-8 h-8 rounded-lg bg-zinc-900/60 border border-zinc-800/50 flex items-center justify-center text-zinc-500 hover:text-zinc-300 hover:border-zinc-700 transition-all duration-200"
+                                    className={`w-8 h-8 rounded-lg border flex items-center justify-center transition-all duration-200 ${
+                                        theme === 'dark'
+                                            ? 'bg-zinc-900/60 border-zinc-800/50 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700'
+                                            : 'bg-white border-zinc-200 text-zinc-500 hover:text-zinc-800 hover:border-zinc-300'
+                                    }`}
                                     whileHover={{ y: -1 }}
                                 >
                                     <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
@@ -54,9 +69,9 @@ const Footer: React.FC = () => {
                             ))}
                         </div>
 
-                        <div className="h-4 w-px bg-zinc-800 hidden md:block" />
+                        <div className={`h-4 w-px hidden md:block ${theme === 'dark' ? 'bg-zinc-800' : 'bg-zinc-300'}`} />
 
-                        <span className="text-zinc-600 text-sm">© 2026 LinearFlow</span>
+                        <span className={`text-sm ${theme === 'dark' ? 'text-zinc-600' : 'text-zinc-500'}`}>© 2026 LinearFlow</span>
                     </div>
                 </div>
             </div>

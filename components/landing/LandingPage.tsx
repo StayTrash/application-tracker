@@ -9,9 +9,11 @@ import PreviewSection from './PreviewSection';
 import FeaturesGrid from './FeaturesGrid';
 import FeaturesList from './FeaturesList';
 import Footer from './Footer';
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 const LandingPage: React.FC = () => {
     const { data: session } = useSession();
+    const { theme } = useTheme();
 
     if (session) {
         redirect('/dashboard');
@@ -26,12 +28,20 @@ const LandingPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-zinc-200 selection:bg-indigo-500/30 font-sans perspective-1000 overflow-x-hidden">
+        <div className={`min-h-screen selection:bg-indigo-500/30 font-sans perspective-1000 overflow-x-hidden transition-colors duration-300 ${
+            theme === 'dark' 
+                ? 'bg-[#0c0c10] text-zinc-200' 
+                : 'bg-[#fafafa] text-zinc-800'
+        }`}>
             {/* Dynamic Background */}
-            <div className="fixed inset-0 bg-dot-pattern opacity-20 pointer-events-none" />
+            <div className={`fixed inset-0 bg-dot-pattern pointer-events-none transition-opacity ${theme === 'dark' ? 'opacity-20' : 'opacity-40'}`} />
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-indigo-500/10 blur-[120px] rounded-full" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[600px] bg-violet-500/5 blur-[100px] rounded-full" />
+                <div className={`absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1000px] h-[500px] blur-[120px] rounded-full ${
+                    theme === 'dark' ? 'bg-indigo-500/10' : 'bg-indigo-400/20'
+                }`} />
+                <div className={`absolute bottom-[-10%] right-[-10%] w-[800px] h-[600px] blur-[100px] rounded-full ${
+                    theme === 'dark' ? 'bg-violet-500/5' : 'bg-violet-400/15'
+                }`} />
             </div>
 
             {/* Navbar */}
